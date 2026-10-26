@@ -30,8 +30,10 @@ export function Libro3D({ src, fallbackSrc, alt, className }: Props) {
     import("@/lib/libro-3d")
       .then(({ montarLibro }) => {
         if (cancelado) return;
+        const papel = getComputedStyle(document.documentElement).getPropertyValue("--papel").trim();
         control = montarLibro(el, {
           src,
+          fondo: papel || undefined,
           onReady: () => setEstado("listo"),
           onError: (err) => {
             console.error("[libro-3d]", err);
@@ -58,16 +60,12 @@ export function Libro3D({ src, fallbackSrc, alt, className }: Props) {
 
   return (
     <div className={cn("relative", className)}>
-      <div className="halo-libro pointer-events-none absolute inset-[-10%]" aria-hidden="true" />
       <div
         ref={ref}
         role="img"
         aria-label={alt}
-        // Mismo rectángulo que el halo: el canvas WebGL deja un velo casi
-        // invisible sobre lo que tiene detrás y, si fuera más chico que el
-        // halo, se vería su borde.
         className={cn(
-          "absolute inset-[-10%] cursor-grab active:cursor-grabbing transition-opacity duration-700",
+          "absolute inset-0 cursor-grab active:cursor-grabbing transition-opacity duration-700",
           estado === "listo" ? "opacity-100" : "opacity-0",
         )}
       />

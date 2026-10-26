@@ -20,6 +20,9 @@ export type OpcionesLibro = {
   fill?: number;
   /** Ángulo inicial en radianes: negativo muestra el lomo. */
   startAngle?: number;
+  /** Color de fondo del canvas (el papel de la página). Es opaco a propósito:
+   *  un canvas transparente deja un velo claro sobre lo que tiene detrás. */
+  fondo?: string;
   onReady?: () => void;
   onError?: (err: unknown) => void;
 };
@@ -35,18 +38,19 @@ export function montarLibro(container: HTMLElement, opciones: OpcionesLibro): Co
     autoRotate: true,
     speed: 1.4,
     interactive: true,
-    fill: 0.7, // el contenedor es un 20 % más grande que el hueco visible (ver Libro3D.tsx)
+    fill: 0.84,
     startAngle: -0.45,
+    fondo: "#f3ecd9",
     ...opciones,
   };
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping; // respeta los colores de la portada
   renderer.toneMappingExposure = 1.0;
-  renderer.setClearColor(0x000000, 0);
+  renderer.setClearColor(new THREE.Color(o.fondo), 1);
   Object.assign(renderer.domElement.style, {
     width: "100%",
     height: "100%",
@@ -94,6 +98,27 @@ export function montarLibro(container: HTMLElement, opciones: OpcionesLibro): Co
   shadow.rotation.x = -Math.PI / 2;
   scene.add(shadow);
 
+  // Halo de luz detrás del libro (oro al centro, violeta alrededor). Va dentro
+  // de la escena, como un sprite que cada cuadro se coloca frente a la cámara
+  // y se estira al tamaño exacto del canvas: así el degradado llega a
+  // transparente justo en los bordes y nunca se ve un corte.
+  const hc = document.createElement("canvas");
+  hc.width = hc.height = 256;
+  const hg = hc.getContext("2d")!;
+  const halo = hg.createRadialGradient(128, 128, 0, 128, 128, 128);
+  halo.addColorStop(0, "rgba(242,184,75,0.5)");
+  halo.addColorStop(0.35, "rgba(183,155,208,0.3)");
+  halo.addColorStop(0.75, "rgba(183,155,208,0.08)");
+  halo.addColorStop(1, "rgba(183,155,208,0)");
+  hg.fillStyle = halo;
+  hg.fillRect(0, 0, 256, 256);
+  const haloTex = new THREE.CanvasTexture(hc);
+  haloTex.colorSpace = THREE.SRGBColorSpace;
+  const haloSprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map: haloTex, transparent: true, depthWrite: false, toneMapped: false }),
+  );
+  scene.add(haloSprite);
+
   let H = 0.245;
   let modelo: THREE.Group | null = null;
   new GLTFLoader().load(
@@ -137,9 +162,19 @@ export function montarLibro(container: HTMLElement, opciones: OpcionesLibro): Co
   let raf = 0;
   let corriendo = false;
   let activo = true;
+  const dirCam = new THREE.Vector3();
+  function colocarHalo() {
+    camera.getWorldDirection(dirCam);
+    const d = camera.position.distanceTo(controls.target) + H * 0.6; // detrás del libro
+    haloSprite.position.copy(camera.position).addScaledVector(dirCam, d);
+    const visibleH = 2 * d * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+    haloSprite.scale.set(visibleH * camera.aspect, visibleH, 1);
+    haloSprite.material.opacity = reduceMotion ? 1 : 0.9 + 0.1 * Math.sin(performance.now() / 1800);
+  }
   function frame() {
     if (!corriendo) return;
     controls.update();
+    colocarHalo();
     renderer.render(scene, camera);
     raf = requestAnimationFrame(frame);
   }
@@ -180,6 +215,8 @@ export function montarLibro(container: HTMLElement, opciones: OpcionesLibro): Co
           }
         });
       }
+      haloSprite.material.map?.dispose();
+      haloSprite.material.dispose();
       shadow.geometry.dispose();
       (shadow.material as THREE.MeshBasicMaterial).map?.dispose();
       (shadow.material as THREE.MeshBasicMaterial).dispose();

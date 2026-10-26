@@ -240,20 +240,6 @@ html.js .aparece.visible, html.sin-observer .aparece { opacity: 1; transform: no
   .aparece { opacity: 1; transform: none; transition: none; }
 }
 
-/* Halo detrás del libro en el hero */
-.halo-libro {
-  background:
-    radial-gradient(ellipse 30% 26% at 50% 58%, color-mix(in srgb, var(--oro) 65%, transparent) 0%, transparent 100%),
-    radial-gradient(ellipse 42% 38% at 50% 50%, color-mix(in srgb, var(--violeta-300) 55%, transparent) 0%, transparent 100%);
-  filter: blur(10px);
-  animation: halo-respira 7s ease-in-out infinite;
-}
-@keyframes halo-respira {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.04); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) { .halo-libro { animation: none; } }
-
 /* Cinta del lomo: el título repetido, como en el lomo del libro */
 @keyframes lomo-corre {
   from { transform: translateX(0); }
