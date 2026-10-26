@@ -257,6 +257,26 @@ const EXTERNOS: Articulo[] = [
   },
 ];
 
+/**
+ * Reels de Instagram de Camila. Para agregar otro: copia su enlace (el
+ * `data-instgrm-permalink` del código de inserción, sin `?utm…`) y su texto.
+ * `articulo` enlaza el reel con un texto de ESCRITOS (se muestra también en
+ * la página de ese artículo).
+ */
+export type Reel = { url: string; titulo: string; texto: string[]; articulo?: string };
+
+export const REELS: Reel[] = [
+  {
+    url: "https://www.instagram.com/reel/DeiCT6OSC8G/",
+    titulo: "¿En la costa usan jeans?",
+    texto: [
+      "Aún recuerdo cuando alguien en Medellín me preguntó con incredulidad «¿en la costa usan jeans?» y yo me quedé perpleja. Al leer el libro de Felipe Martínez Pinzón, Una cultura de invernadero: trópico y civilización en Colombia (1808-1928), encontré el sentido de muchos sentimientos que en su momento no supe nombrar.",
+      "Este video es una fracción de todo el análisis que se puede hacer sobre las regiones en Colombia, sus culturas, los imaginarios entre ellas y su relación con el vestir.",
+    ],
+    articulo: "la-ficcion-tropical-que-nos-viste",
+  },
+];
+
 /** Todos los textos, del más reciente al más antiguo. */
 export const ESCRITOS: Articulo[] = [...ARTICULOS, ...EXTERNOS].sort((a, b) => b.fecha.localeCompare(a.fecha));
 

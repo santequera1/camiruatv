@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { ARTICULOS, buscarArticulo, CAMILA } from "@/lib/contenido";
+import { ReelInstagram } from "@/components/sitio/ReelInstagram";
+import { ARTICULOS, buscarArticulo, CAMILA, REELS } from "@/lib/contenido";
 import { metaPagina, titulo } from "@/lib/seo";
 
 export const Route = createFileRoute("/$slug")({
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/$slug")({
 function PaginaArticulo() {
   const { articulo } = Route.useLoaderData();
   const otros = ARTICULOS.filter((a) => a.slug !== articulo.slug && a.cuerpo);
+  const reels = REELS.filter((r) => r.articulo === articulo.slug);
 
   return (
     <article className="pb-10">
@@ -75,6 +77,17 @@ function PaginaArticulo() {
           </p>
         )}
       </div>
+
+      {reels.map((r) => (
+        <aside key={r.url} className="mx-auto mt-16 grid max-w-3xl items-center gap-8 px-4 sm:px-6 md:grid-cols-[1fr_340px]" aria-label="Este análisis en video">
+          <div>
+            <p className="etiqueta inline-block rounded-sm bg-lima px-2 py-1 text-violeta-900">En video</p>
+            <p className="mt-4 font-serif text-2xl font-semibold text-tinta">{r.titulo}</p>
+            <p className="mt-3 text-muted-foreground">{r.texto[0]}</p>
+          </div>
+          <ReelInstagram url={r.url} autor={CAMILA.usuario} />
+        </aside>
+      ))}
 
       {otros.length > 0 && (
         <aside className="mx-auto mt-16 max-w-3xl px-4 sm:px-6">

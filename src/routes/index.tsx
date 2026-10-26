@@ -4,7 +4,8 @@ import { BrujulaNombre } from "@/components/sitio/BrujulaNombre";
 import { EscrituraLista } from "@/components/sitio/EscrituraLista";
 import { LibroFlotante, LibroHueco } from "@/components/sitio/LibroFlotante";
 import { Maquina } from "@/components/sitio/Maquina";
-import { CAMILA, ESCRITOS, FAVORITOS, LIBRO } from "@/lib/contenido";
+import { ReelInstagram } from "@/components/sitio/ReelInstagram";
+import { CAMILA, ESCRITOS, FAVORITOS, LIBRO, REELS } from "@/lib/contenido";
 import { metaPagina, titulo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -30,6 +31,7 @@ function Inicio() {
       <SobreElLibro />
       <SobreMi />
       <Escritura />
+      <EnVideo />
       <Brujula />
       <Cierre />
     </>
@@ -314,6 +316,54 @@ function Escritura() {
           </a>
         </div>
       </div>
+    </section>
+  );
+}
+
+/** Reels de Instagram (REELS en contenido.ts). Con uno, va texto + reel; con
+ *  más, una fila que se desliza de izquierda a derecha. */
+function EnVideo() {
+  if (REELS.length === 0) return null;
+  const [principal, ...resto] = REELS;
+  const articulo = principal.articulo ? ESCRITOS.find((a) => a.slug === principal.articulo) : undefined;
+  return (
+    <section id="video" className="scroll-mt-20 bg-hoja pb-20 text-violeta lg:pb-28" aria-labelledby="h-video">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 border-t border-violeta/10 px-4 pt-16 sm:px-6 lg:grid-cols-[1fr_minmax(0,400px)] lg:gap-16 lg:px-8 lg:pt-20">
+        <div>
+          <p className="aparece etiqueta inline-flex items-center gap-2 rounded-sm bg-lima px-2 py-1 text-violeta-900">
+            <Instagram className="size-3.5" aria-hidden="true" /> En video
+          </p>
+          <h2 id="h-video" className="aparece-titulo mt-5 font-serif text-[clamp(2.2rem,4.5vw,3.6rem)] font-semibold leading-tight">
+            {principal.titulo}
+          </h2>
+          <div className="aparece mt-6 max-w-xl space-y-4 text-lg leading-relaxed text-violeta-900/80">
+            {principal.texto.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+          {articulo && (
+            <Link
+              to="/$slug"
+              params={{ slug: articulo.slug }}
+              className="aparece mt-8 inline-flex h-12 items-center gap-2 rounded-md bg-violeta px-6 font-sans text-sm font-medium text-hoja shadow-soft transition-colors hover:bg-violeta-700"
+            >
+              Leer «{articulo.titulo}»
+              <ArrowDown className="size-4 -rotate-90" aria-hidden="true" />
+            </Link>
+          )}
+        </div>
+        <ReelInstagram url={principal.url} autor={CAMILA.usuario} className="aparece" />
+      </div>
+
+      {resto.length > 0 && (
+        <ul className="mx-auto mt-12 flex max-w-7xl snap-x gap-6 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-8">
+          {resto.map((r) => (
+            <li key={r.url} className="w-[320px] shrink-0 snap-start">
+              <ReelInstagram url={r.url} autor={CAMILA.usuario} />
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

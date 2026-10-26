@@ -27,6 +27,16 @@ Lista con imagen flotante al pasar el mouse (`EscrituraLista.tsx`, framer-motion
 de cada sitio) y la de Sofoco es la página 243 del PDF de la revista. El título se escribe solo
 (`Maquina.tsx`). En táctil, cada fila muestra su miniatura fija.
 
+## En video (reels de Instagram)
+
+Sección «En video» después de Escritura (`EnVideo` en `index.tsx`) y bloque al final del artículo
+relacionado (`$slug.tsx`). Los reels están en `REELS` de `contenido.ts`: `url` (el permalink del código de
+inserción, sin `?utm…`), `titulo`, `texto` y `articulo` (slug). Con un reel va texto + video; con varios, los
+demás salen en una fila deslizable. `ReelInstagram.tsx` usa el código oficial pero carga `embed.js` solo
+cuando el reel está cerca de la pantalla, y **sin** `data-instgrm-captioned` (con él la tarjeta mide ~1400 px
+porque mete el texto completo en varios idiomas). Mientras carga, o si Instagram está bloqueado, se ve una
+tarjeta propia con enlace al reel.
+
 ## Brújula (sección 04)
 
 Cada nombre puede llevar imagen (`FAVORITOS` en `contenido.ts`): en escritorio aparece flotando al pasar
