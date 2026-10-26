@@ -1,0 +1,23 @@
+# Secretos y entorno
+CLAUDE.local.md
+.env
+.env.*
+!.env.example
+
+# Dependencias y builds
+node_modules/
+dist/
+.tanstack/
+.vinxi/
+.output/
+*.tsbuildinfo
+
+# Material de origen (PDF de la revista, Blender, renders grandes): solo local
+contenido/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+*.log

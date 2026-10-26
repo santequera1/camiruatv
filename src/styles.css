@@ -1,0 +1,263 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "./styles/transitions.css";
+
+/* Sin modo oscuro: el sitio es papel crema siempre. La variante queda atada
+   a la clase .dark (que nadie pone) para que los `dark:` de shadcn no se
+   activen solos con el tema del sistema. */
+@custom-variant dark (&:is(.dark *));
+
+/* ================================================================
+ * CAMIRUATV — tokens de marca (fuente: la portada de "Desvistiendo
+ * otros estilos" + el violeta de Camila)
+ *   papel   #f3ecd9  crema de la cubierta
+ *   tinta   #1f5a6b  azul petróleo del lomo y la tipografía
+ *   oro     #f2b84b  la caja del título
+ *   violeta #6b4f9e  el color de Camila, acento secundario
+ * Tipografía: EB Garamond (títulos y lectura) + DM Sans (etiquetas, UI).
+ * Nunca colores sueltos en componentes: siempre estos tokens.
+ * ================================================================ */
+
+@theme {
+  --font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+}
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Paleta editorial */
+  --color-papel: var(--papel);
+  --color-papel-2: var(--papel-2);
+  --color-papel-3: var(--papel-3);
+  --color-tinta: var(--tinta);
+  --color-tinta-700: var(--tinta-700);
+  --color-tinta-900: var(--tinta-900);
+  --color-tinta-100: var(--tinta-100);
+  --color-oro: var(--oro);
+  --color-oro-600: var(--oro-600);
+  --color-oro-100: var(--oro-100);
+  --color-violeta: var(--violeta);
+  --color-violeta-700: var(--violeta-700);
+  --color-violeta-300: var(--violeta-300);
+  --color-violeta-100: var(--violeta-100);
+
+  --shadow-xs: 0 1px 2px rgb(31 58 68 / 0.06);
+  --shadow-soft: 0 2px 10px rgb(31 58 68 / 0.08);
+  --shadow-card: 0 14px 40px -16px rgb(31 58 68 / 0.25);
+  --shadow-modal: 0 24px 60px -20px rgb(31 58 68 / 0.4);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --papel: #f3ecd9;
+  --papel-2: #ebe2c6;
+  --papel-3: #dfd3ad;
+  --tinta: #1f5a6b;
+  --tinta-700: #174856;
+  --tinta-900: #0e3340;
+  --tinta-100: #d6e4e8;
+  --oro: #f2b84b;
+  --oro-600: #d99a1e;
+  --oro-100: #fbe9c3;
+  --violeta: #6b4f9e;
+  --violeta-700: #4e3777;
+  --violeta-300: #b79bd0;
+  --violeta-100: #e8e0f2;
+
+  --background: var(--papel);
+  --foreground: #1b3f4b; /* tinta un poco más oscura para lectura: ~9:1 sobre papel */
+  --card: #f8f3e6;
+  --card-foreground: #1b3f4b;
+  --popover: #f8f3e6;
+  --popover-foreground: #1b3f4b;
+
+  --primary: var(--tinta); /* papel encima: ~6,5:1 */
+  --primary-foreground: var(--papel);
+  --secondary: var(--oro);
+  --secondary-foreground: var(--tinta-900);
+  --muted: var(--papel-2);
+  --muted-foreground: #4d6a73; /* ~4,9:1 sobre papel */
+  --accent: var(--violeta-100);
+  --accent-foreground: var(--violeta-700);
+  --destructive: #b3362f;
+  --destructive-foreground: #ffffff;
+  --border: #d9cfae;
+  --input: #cfc39d;
+  --ring: var(--violeta);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-family: var(--font-serif);
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  html body[data-scroll-locked][data-scroll-locked][data-scroll-locked] {
+    overflow: visible !important;
+    position: static !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled), summary, label[for] { cursor: pointer; }
+  button:disabled, [role="button"][aria-disabled="true"] { cursor: not-allowed; }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--oro);
+    color: var(--tinta-900);
+  }
+}
+
+/* ----------------------------------------------------------------
+ * Adornos editoriales tomados de la cubierta: el marco de doble línea
+ * punteada (sin el patrón de ondas, que no se usa) y la capitular.
+ * ---------------------------------------------------------------- */
+@utility marco-punteado {
+  position: relative;
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px dashed color-mix(in srgb, var(--tinta) 55%, transparent);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  &::after {
+    inset: 6px;
+    border-color: color-mix(in srgb, var(--tinta) 30%, transparent);
+  }
+}
+
+@utility capitular {
+  &::first-letter {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--tinta);
+    float: left;
+    font-size: 4.6em;
+    line-height: 0.78;
+    padding: 0.08em 0.12em 0 0;
+  }
+}
+
+@utility etiqueta {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Texto de lectura larga (el artículo) */
+.prosa p {
+  margin-block: 0 1.2em;
+  font-size: clamp(1.1rem, 1.05rem + 0.25vw, 1.25rem);
+  line-height: 1.6;
+}
+.prosa p:last-child { margin-bottom: 0; }
+.prosa blockquote {
+  margin: 2.2em 0;
+  padding-left: 1.2em;
+  border-left: 3px solid var(--oro);
+  font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.75rem);
+  line-height: 1.35;
+  font-style: italic;
+  color: var(--tinta);
+  text-wrap: pretty;
+}
+.prosa a {
+  color: var(--violeta-700);
+  text-decoration: underline;
+  text-decoration-color: var(--violeta-300);
+  text-underline-offset: 3px;
+}
+.prosa a:hover { text-decoration-color: var(--violeta-700); }
+.prosa .nota {
+  margin-top: 2.5em;
+  padding-top: 1.2em;
+  border-top: 1px dashed var(--border);
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+}
+
+/* Entrada suave de las secciones al hacer scroll. Solo se ocultan cuando hay JS
+   (html.js lo pone un script en <head>); sin JS, o antes de hidratar, se ve todo. */
+html.js .aparece {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js .aparece.visible, html.sin-observer .aparece { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .aparece { opacity: 1; transform: none; transition: none; }
+}
+
+/* Halo detrás del libro en el hero */
+.halo-libro {
+  background:
+    radial-gradient(ellipse 30% 26% at 50% 58%, color-mix(in srgb, var(--oro) 65%, transparent) 0%, transparent 100%),
+    radial-gradient(ellipse 42% 38% at 50% 50%, color-mix(in srgb, var(--violeta-300) 55%, transparent) 0%, transparent 100%);
+  filter: blur(10px);
+  animation: halo-respira 7s ease-in-out infinite;
+}
+@keyframes halo-respira {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .halo-libro { animation: none; } }
+
+/* Cinta del lomo: el título repetido, como en el lomo del libro */
+@keyframes lomo-corre {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.lomo-marquee { animation: lomo-corre 40s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .lomo-marquee { animation: none; } }
