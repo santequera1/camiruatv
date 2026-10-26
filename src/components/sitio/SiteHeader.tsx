@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const SECCIONES = [
   { href: "#libro", label: "El libro", num: "01" },
-  { href: "#camila", label: "Camila", num: "02" },
+  { href: "#sobre-mi", label: "Sobre mí", num: "02" },
   { href: "#escritura", label: "Escritura", num: "03" },
   { href: "#brujula", label: "Brújula", num: "04" },
 ];
@@ -90,7 +90,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Menú"
-          className={cn("menu-pantalla fixed inset-0 z-50 bg-tinta text-papel", estado === "cerrando" && "menu-sale")}
+          className={cn("menu-pantalla fixed inset-0 z-50 bg-violeta text-hoja", estado === "cerrando" && "menu-sale")}
           onAnimationEnd={(e) => {
             if (e.target === e.currentTarget && estado === "cerrando") setEstado("cerrado");
           }}

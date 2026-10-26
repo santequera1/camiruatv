@@ -13,6 +13,15 @@ export const CAMILA = {
   ciudad: "Colombia",
   instagram: "https://www.instagram.com/camiruatv/",
   linktree: "https://linktr.ee/Facteda",
+  correo: "camilaruatovio@gmail.com",
+  /** Factedá: su proyecto de divulgación (Linktree, Instagram, TikTok, Pinterest). */
+  facteda: {
+    nombre: "Factedá",
+    lema: "Pienso e informo sobre las modas, el vestir y la sostenibilidad",
+    instagram: "https://instagram.com/kmy_and_rt",
+    tiktok: "https://tiktok.com/@kmy_and_rt",
+    pinterest: "https://pinterest.com/kmy_and_rt",
+  },
   presentacion: [
     "Soy periodista e investigadora de las modas y el vestir. Mi trabajo explora la relación entre la sociedad, la cultura y las historias que en ellas habitan a través de la creación de contenido y la escritura. He colaborado con medios y organizaciones digitales como El Bolivarense, Melodrama.mx y la Fundación Entre Soles y Lunas.",
     "Mi formación en periodismo, publicidad y sociología me ha permitido analizar y narrar la realidad de manera rigurosa, atractiva y crítica. Más allá de mi desempeño en comunicación digital y periodismo, mi labor académica me hizo acreedora de un estímulo del Ministerio de las Culturas para publicar mi investigación enfocada en género, moda y subculturas.",
@@ -26,7 +35,7 @@ export const CAMILA = {
     { titulo: "Ponente", detalle: "XIV Congreso Nacional de Sociología" },
     { titulo: "Estímulo del Ministerio de las Culturas, las Artes y los Saberes", detalle: "Para publicar su investigación de maestría sobre género, moda y subculturas" },
   ],
-  medios: ["El Bolivarense", "Melodrama.mx", "Fundación Entre Soles y Lunas", "Sofoco Revista"],
+  medios: ["El Bolivarense", "Melodrama.mx", "Universo MOLA", "Fundación Entre Soles y Lunas", "Sofoco Revista"],
 };
 
 export const LIBRO = {
@@ -58,7 +67,11 @@ export type Articulo = {
   medio: string;
   edicion?: string;
   anio: string;
+  /** Fecha de publicación (AAAA-MM-DD), para ordenar. */
+  fecha: string;
   resumen: string;
+  /** Imagen que aparece al pasar el mouse (public/escritura/). */
+  imagen?: string;
   urlExterna?: string;
   /** Párrafos del cuerpo. Un string que empieza por "> " es una cita destacada. */
   cuerpo?: string[];
@@ -73,6 +86,8 @@ export const ARTICULOS: Articulo[] = [
     medio: "Sofoco Revista",
     edicion: "Edición 02",
     anio: "2026",
+    fecha: "2026-06-01",
+    imagen: "/escritura/sofoco.webp",
     resumen:
       "Del «tropical chic» a las alertas de viaje: cómo la idea colonial del trópico sigue vistiendo a la moda colombiana y qué se pierde cuando el Caribe solo se narra desde el clima.",
     urlExterna: "https://heyzine.com/flip-book/68279efa7d.html#page/243",
@@ -105,6 +120,114 @@ export const ARTICULOS: Articulo[] = [
     nota: "¹ Abya Yala es el término utilizado por los pueblos indígenas para referirse al continente americano como resistencia a la colonización.",
   },
 ];
+
+
+/** Publicados en otros medios (fuente: su Linktree, Factedá). Fechas e imágenes de cada medio. */
+const EXTERNOS: Articulo[] = [
+  {
+    slug: "costura",
+    titulo: "Confesiones en máquina de coser: la costura y el trabajo feminizado",
+    medio: "Melodrama.mx",
+    anio: "2025",
+    fecha: "2025-04-19",
+    resumen: "La máquina de coser como archivo íntimo del trabajo de las mujeres, entre el oficio y la precariedad.",
+    imagen: "/escritura/costura.webp",
+    urlExterna: "https://melodrama.mx/2025-04-costura/",
+  },
+  {
+    slug: "nobsa",
+    titulo: "La tejeduría de Nobsa: una oportunidad para la revitalización",
+    medio: "Fundación Entre Soles y Lunas",
+    anio: "2025",
+    fecha: "2025-04-04",
+    resumen: "El legado muisca que convirtió a Nobsa en la capital mundial de la ruana: sus historias, dificultades y oportunidades.",
+    imagen: "/escritura/nobsa.webp",
+    urlExterna: "https://entresolesylunas.org/la-tejeduria-de-nobsa-una-oportunidad-para-la-revitalizacion/",
+  },
+  {
+    slug: "diseno-ia",
+    titulo: "Diseño consciente junto a la IA",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-03-26",
+    resumen: "Qué cambia en la creación de moda cuando la inteligencia artificial entra al taller, y cómo usarla con conciencia.",
+    imagen: "/escritura/ia.webp",
+    urlExterna: "https://universomola.com/diseno-consciente-junto-a-la-ia/",
+  },
+  {
+    slug: "lujo-colombia",
+    titulo: "Transformación y proyecciones del mercado de lujo en Colombia",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-03-18",
+    resumen: "Las cifras y las preguntas detrás del crecimiento del lujo colombiano en 2025.",
+    imagen: "/escritura/lujo-colombia.webp",
+    urlExterna: "https://universomola.com/transformacion-y-proyecciones-del-mercado-de-lujo-en-colombia/",
+  },
+  {
+    slug: "conciertos",
+    titulo: "¿Los conciertos aumentan el consumo de prendas de un solo uso?",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-03-10",
+    resumen: "De la gira de Shakira al clóset: el outfit de concierto y la moda de una sola noche.",
+    imagen: "/escritura/conciertos.webp",
+    urlExterna: "https://universomola.com/los-conciertos-aumentan-el-consumo-de-prendas-de-un-solo-uso/",
+  },
+  {
+    slug: "ecommerce",
+    titulo: "El estado real de la moda sostenible en el e-commerce latinoamericano",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-02-24",
+    resumen: "Trescientos millones de compradores digitales en la región: ¿cuánto de lo que se vende en línea es de verdad sostenible?",
+    imagen: "/escritura/ecommerce.webp",
+    urlExterna: "https://universomola.com/el-estado-real-de-la-moda-sostenible-en-el-e-commerce-latinoamericano/",
+  },
+  {
+    slug: "valentina-suarez",
+    titulo: "Aprender para afrontar: Valentina Suárez y los retos de la moda sostenible",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-02-18",
+    resumen: "Conversación sobre lo que se desconoce al entrar, o transicionar, hacia una industria de la moda sostenible.",
+    imagen: "/escritura/valentina.webp",
+    urlExterna: "https://universomola.com/aprender-para-afrontar-valentina-suarez-explica-los-retos-de-la-industria-de-la-moda-sostenible/",
+  },
+  {
+    slug: "pescado",
+    titulo: "El pescado, sus residuos y los nuevos materiales de la moda",
+    medio: "Universo MOLA",
+    anio: "2025",
+    fecha: "2025-02-17",
+    resumen: "América Latina es la segunda región acuícola del mundo; sus residuos ya se están volviendo textiles.",
+    imagen: "/escritura/pescado.webp",
+    urlExterna: "https://universomola.com/el-pescado-sus-residuos-y-los-nuevos-materiales-que-pueden-ser-utilizados-en-la-industria-de-la-moda/",
+  },
+  {
+    slug: "aesthetic",
+    titulo: "Vestir aesthetic a las realidades latinas",
+    medio: "Melodrama.mx",
+    anio: "2024",
+    fecha: "2024-11-05",
+    resumen: "Vestirse en Colombia, México o Chile: realidades parecidas y distintas, atravesadas por la estética de las redes.",
+    imagen: "/escritura/aesthetic.webp",
+    urlExterna: "https://melodrama.mx/2024-11-aesthetic-latinoamerica/",
+  },
+  {
+    slug: "lujo",
+    titulo: "La insostenibilidad del lujo en la moda colombiana y latina",
+    medio: "Melodrama.mx",
+    anio: "2024",
+    fecha: "2024-09-06",
+    resumen: "¿Debe redefinirse el lujo a costa de prácticas laborales dudosas y procesos de producción que nadie conoce?",
+    imagen: "/escritura/lujo.webp",
+    urlExterna: "https://melodrama.mx/2024-09-lujo/",
+  },
+];
+
+/** Todos los textos, del más reciente al más antiguo. */
+export const ESCRITOS: Articulo[] = [...ARTICULOS, ...EXTERNOS].sort((a, b) => b.fecha.localeCompare(a.fecha));
 
 export function buscarArticulo(slug: string): Articulo | undefined {
   return ARTICULOS.find((a) => a.slug === slug);

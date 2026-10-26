@@ -35,6 +35,11 @@ export type ControlLibro = {
 const easeInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2; // seno: arranca y frena sin tirones
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const TAU = Math.PI * 2;
+/** Ángulo inicial en el hero: se ve el lomo. */
+const INICIO = -0.45;
+/** Ángulo "de frente" al aterrizar: la portada, con un asomo del lomo. */
+const FRENTE = -0.22;
 
 export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   const vueltas = o.vueltas ?? 0.75;
@@ -95,9 +100,9 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   hc.width = hc.height = 256;
   const hg = hc.getContext("2d")!;
   const hgrd = hg.createRadialGradient(128, 128, 0, 128, 128, 128);
-  hgrd.addColorStop(0, "rgba(242,184,75,0.55)");
-  hgrd.addColorStop(0.4, "rgba(183,155,208,0.32)");
-  hgrd.addColorStop(0.8, "rgba(183,155,208,0.06)");
+  hgrd.addColorStop(0, "rgba(242,184,75,0.45)");
+  hgrd.addColorStop(0.4, "rgba(199,155,227,0.26)");
+  hgrd.addColorStop(0.8, "rgba(199,155,227,0.05)");
   hgrd.addColorStop(1, "rgba(183,155,208,0)");
   hg.fillStyle = hgrd;
   hg.fillRect(0, 0, 256, 256);
@@ -124,7 +129,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
       modelo = m;
       H = size.y;
       ancho = size.x;
-      sombra.scale.set(size.x * 1.5, size.z * 5 + size.x * 0.5, 1);
+      sombra.scale.set(size.x * 1.15, size.z * 4 + size.x * 0.35, 1);
       sombra.position.y = -H / 2 - H * 0.08;
       listo = true;
       o.onReady?.();
@@ -149,9 +154,11 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
 
   // ---- Arrastrar para girar (desde los huecos) ---------------------------
   let giroArrastre = 0;
+  let inclinacion = 0; // arrastre vertical: inclina el libro hacia adelante o atrás
   let arrastrando = false;
   let ultimaInteraccion = -1e9;
   let xPrev = 0;
+  let yPrev = 0;
   const limpiezas: (() => void)[] = [];
   function conectarHueco(el: HTMLElement) {
     const down = (e: PointerEvent) => {
@@ -159,12 +166,15 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
       if (e.pointerType === "mouse") e.preventDefault(); // sin selección de texto ni arrastre nativo
       arrastrando = true;
       xPrev = e.clientX;
+      yPrev = e.clientY;
       el.setPointerCapture(e.pointerId);
     };
     const move = (e: PointerEvent) => {
       if (!arrastrando) return;
       giroArrastre += (e.clientX - xPrev) * 0.012;
+      inclinacion = Math.max(-0.6, Math.min(0.6, inclinacion + (e.clientY - yPrev) * 0.008));
       xPrev = e.clientX;
+      yPrev = e.clientY;
       ultimaInteraccion = performance.now();
     };
     const up = (e: PointerEvent) => {
@@ -269,16 +279,30 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     const wx = (cx / vw - 0.5) * visibleH * camera.aspect;
     const wy = (0.5 - cy / vh) * visibleH;
     grupo.position.set(wx, wy, 0);
-    const s = ((h * 0.8) / vh) * visibleH / H;
+    const s = ((h * 0.72) / vh) * visibleH / H;
     grupo.scale.setScalar(s);
 
-    // Giro: automático (se pausa 2 s después de arrastrar) + arrastre + viaje.
-    if (!reduceMotion && !arrastrando && ahora - ultimaInteraccion > 2000) giroAuto += velocidad * dt;
-    const viaje = reduceMotion ? 0 : p * Math.PI * 2 * vueltas;
-    grupo.rotation.y = -0.45 + giroAuto + giroArrastre + viaje;
+    // Giro. En el hero gira solo (se pausa 2 s después de arrastrar). Al viajar
+    // hacia «Sobre el libro» da su vuelta y llega DE FRENTE: el ángulo de
+    // llegada es el frente más cercano a "ángulo actual + vueltas". Ya posado,
+    // se mece suave alrededor del frente en vez de seguir girando.
+    const quieto = ahora - ultimaInteraccion > 2000;
+    if (!reduceMotion && !arrastrando && quieto && p < 0.001) giroAuto += velocidad * dt;
+    const anguloHero = INICIO + giroAuto;
+    const k = Math.round((anguloHero + vueltas * TAU - FRENTE) / TAU);
+    const llegada = FRENTE + k * TAU;
+    const mecer = reduceMotion ? 0 : 0.16 * Math.sin(ahora / 1700) * p;
+    // Fuera del hero, lo que el visitante giró a mano vuelve solo al frente.
+    if (p > 0.02 && !arrastrando && ahora - ultimaInteraccion > 2500) {
+      const resto = giroArrastre - Math.round(giroArrastre / TAU) * TAU;
+      giroArrastre -= resto * (1 - Math.exp(-2.2 * dt));
+    }
+    if (!arrastrando) inclinacion *= Math.exp(-3 * dt); // la inclinación siempre vuelve
+    grupo.rotation.y = lerp(anguloHero, llegada, p) + mecer + giroArrastre;
+    grupo.rotation.x = 0.1 + inclinacion;
 
     halo.position.set(wx, wy, -ancho * 2 * s);
-    const hs = s * H * 2.6;
+    const hs = s * H * 1.85;
     halo.scale.set(hs, hs, 1);
     halo.material.opacity = reduceMotion ? 1 : 0.9 + 0.1 * Math.sin(ahora / 1800);
     return true;

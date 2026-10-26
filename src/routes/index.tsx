@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, BookOpen, Instagram } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen, Instagram, Mail } from "lucide-react";
+import { EscrituraLista } from "@/components/sitio/EscrituraLista";
 import { LibroFlotante, LibroHueco } from "@/components/sitio/LibroFlotante";
-import { ARTICULOS, CAMILA, FAVORITOS, LIBRO } from "@/lib/contenido";
+import { Maquina } from "@/components/sitio/Maquina";
+import { CAMILA, ESCRITOS, FAVORITOS, LIBRO } from "@/lib/contenido";
 import { metaPagina, titulo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -25,7 +27,7 @@ function Inicio() {
       <Hero />
       <CintaLomo />
       <SobreElLibro />
-      <SobreCamila />
+      <SobreMi />
       <Escritura />
       <Brujula />
       <Cierre />
@@ -53,7 +55,7 @@ function Hero() {
             id="hero"
             alt={ALT_LIBRO}
             fallbackSrc="/libro-portada.webp"
-            className="mx-auto aspect-square w-full max-w-[min(88vw,560px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(78vh,720px)]"
+            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(66vh,600px)]"
           />
           <p className="mt-2 text-center font-sans text-xs text-muted-foreground lg:mt-0">
             Arrástralo para verlo por todos lados · baja para seguirlo
@@ -117,7 +119,7 @@ function CintaLomo() {
   const repetida = Array.from({ length: 12 }, () => frase).join("");
   return (
     <div className="overflow-hidden border-y border-tinta/15 bg-tinta py-3 text-papel" aria-hidden="true">
-      <div className="lomo-marquee flex w-max whitespace-nowrap font-serif text-sm tracking-[0.3em]">
+      <div className="lomo-marquee flex w-max whitespace-nowrap font-serif text-sm tracking-[0.2em]">
         <span>{repetida}</span>
         <span>{repetida}</span>
       </div>
@@ -127,16 +129,16 @@ function CintaLomo() {
 
 /* ------------------------------------------------------------------ */
 
-function Encabezado({ num, titulo: t, id, claro }: { num: string; titulo: string; id?: string; claro?: boolean }) {
+const TONOS = {
+  tinta: { num: "text-oro-600", titulo: "text-tinta" },
+  claro: { num: "text-oro", titulo: "text-hoja" },
+};
+
+function Encabezado({ num, titulo: t, id, tono = "tinta" }: { num: string; titulo: string; id?: string; tono?: keyof typeof TONOS }) {
   return (
     <div className="flex items-baseline gap-4">
-      <span className={`aparece font-sans text-xs font-semibold tracking-[0.2em] ${claro ? "text-oro" : "text-oro-600"}`}>
-        {num}
-      </span>
-      <h2
-        id={id}
-        className={`aparece-titulo font-serif text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-tight ${claro ? "text-papel" : "text-tinta"}`}
-      >
+      <span className={`aparece font-sans text-xs font-semibold tracking-[0.2em] ${TONOS[tono].num}`}>{num}</span>
+      <h2 id={id} className={`aparece-titulo font-serif text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-tight ${TONOS[tono].titulo}`}>
         {t}
       </h2>
     </div>
@@ -197,13 +199,13 @@ function SobreElLibro() {
 
 /* ------------------------------------------------------------------ */
 
-function SobreCamila() {
+function SobreMi() {
   return (
-    <section id="camila" className="scroll-mt-20 bg-papel-2/50 py-20 lg:py-28" aria-labelledby="h-camila">
+    <section id="sobre-mi" className="scroll-mt-20 bg-papel-2/50 py-20 lg:py-28" aria-labelledby="h-sobre-mi">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Encabezado num="02" titulo="Camila" id="h-camila" />
+        <Encabezado num="02" titulo="Sobre mí" id="h-sobre-mi" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-16">
-          <figure className="relative mx-auto w-full max-w-sm lg:max-w-none">
+          <figure className="relative mx-auto w-full max-w-sm self-start lg:sticky lg:top-24 lg:max-w-none">
             <div className="aparece absolute -inset-3 rounded-sm bg-violeta-100" aria-hidden="true" />
             <div className="aparece absolute -inset-3 translate-x-3 translate-y-3 rounded-sm border border-dashed border-tinta/40" aria-hidden="true" />
             <div className="aparece-foto relative overflow-hidden rounded-sm shadow-card">
@@ -245,6 +247,8 @@ function SobreCamila() {
               ))}
             </ol>
 
+            <Facteda />
+
             <p className="aparece mt-8 font-sans text-sm text-muted-foreground">
               Ha colaborado con{" "}
               {CAMILA.medios.map((m, i) => (
@@ -265,73 +269,75 @@ function SobreCamila() {
 
 function Escritura() {
   return (
-    <section id="escritura" className="scroll-mt-20 py-20 lg:py-28" aria-labelledby="h-escritura">
+    <section id="escritura" className="scroll-mt-20 bg-hoja py-20 text-violeta lg:py-28" aria-labelledby="h-escritura">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Encabezado num="03" titulo="Escritura" id="h-escritura" />
-        <p className="aparece mt-4 max-w-2xl text-muted-foreground">
-          Textos publicados en otros medios. Esta sección crece a medida que Camila los comparte.
+        <div className="flex items-baseline gap-4">
+          <span className="aparece font-sans text-xs font-semibold tracking-[0.2em] text-violeta/60">03</span>
+          <h2 id="h-escritura" className="font-serif text-[clamp(2.4rem,5vw,4rem)] font-semibold leading-tight text-violeta">
+            <Maquina texto="Escritura" />
+          </h2>
+        </div>
+        <p className="aparece mt-4 max-w-2xl text-violeta-900/70">
+          Textos publicados en revistas y medios digitales sobre moda, vestir, trabajo y sostenibilidad. Pasa el cursor por
+          cada uno para ver su imagen.
         </p>
-        <ul className="escalona mt-10 grid gap-6 md:grid-cols-2">
-          {ARTICULOS.map((a, i) => (
-            <li key={a.slug} style={orden(i)}>
-              <article className="group relative flex h-full flex-col rounded-sm border border-border bg-card p-7 shadow-soft transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-card">
-                <p className="etiqueta text-violeta-700">
-                  {a.medio}
-                  {a.edicion ? ` · ${a.edicion}` : ""} · {a.anio}
-                </p>
-                <h3 className="mt-3 font-serif text-[clamp(1.6rem,2.4vw,2.1rem)] font-semibold leading-tight text-tinta">
-                  {a.cuerpo ? (
-                    <Link to="/$slug" params={{ slug: a.slug }} className="after:absolute after:inset-0">
-                      {a.titulo}
-                    </Link>
-                  ) : (
-                    a.titulo
-                  )}
-                </h3>
-                <p className="mt-3 text-foreground/90">{a.resumen}</p>
-                <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6 font-sans text-sm">
-                  {a.cuerpo && (
-                    <span className="inline-flex items-center gap-1.5 font-medium text-tinta transition-colors group-hover:text-violeta-700">
-                      Leer aquí <ArrowDown className="size-4 -rotate-90" aria-hidden="true" />
-                    </span>
-                  )}
-                  {a.urlExterna && (
-                    <a
-                      href={a.urlExterna}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative z-10 inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-violeta-700"
-                    >
-                      Ver en {a.medio} <ArrowUpRight className="size-4" aria-hidden="true" />
-                    </a>
-                  )}
-                </div>
-              </article>
-            </li>
-          ))}
-          <li style={orden(ARTICULOS.length)}>
-            <div className="flex h-full flex-col justify-between rounded-sm border border-dashed border-tinta/40 p-7">
-              <div>
-                <p className="etiqueta text-tinta/70">Medios y organizaciones</p>
-                <ul className="mt-4 space-y-2 font-serif text-xl text-foreground">
-                  {CAMILA.medios.map((m) => (
-                    <li key={m}>{m}</li>
-                  ))}
-                </ul>
-              </div>
-              <a
-                href={CAMILA.linktree}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center gap-1.5 font-sans text-sm font-medium text-tinta transition-colors hover:text-violeta-700"
-              >
-                Más enlaces <ArrowUpRight className="size-4" aria-hidden="true" />
-              </a>
-            </div>
+
+        <div className="aparece mt-12">
+          <EscrituraLista escritos={ESCRITOS} />
+        </div>
+
+        <div className="aparece mt-10 flex flex-wrap items-center justify-between gap-4 font-sans text-sm text-violeta-900/70">
+          <p>
+            También en{" "}
+            {CAMILA.medios.map((m, i) => (
+              <span key={m}>
+                <span className="font-medium text-violeta">{m}</span>
+                {i < CAMILA.medios.length - 2 ? ", " : i === CAMILA.medios.length - 2 ? " y " : "."}
+              </span>
+            ))}
+          </p>
+          <a
+            href={CAMILA.linktree}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-medium text-violeta transition-colors hover:text-violeta-700"
+          >
+            Todos los enlaces <ArrowUpRight className="size-4" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Factedá: su proyecto de divulgación, con la flor de su Linktree. */
+function Facteda() {
+  const f = CAMILA.facteda;
+  return (
+    <div className="aparece mt-10 flex items-center gap-5 rounded-sm bg-violeta p-5 text-hoja sm:p-6">
+      <img src="/flor.webp" alt="" width={240} height={240} loading="lazy" decoding="async" className="size-16 shrink-0 sm:size-20" />
+      <div className="min-w-0">
+        <p className="font-serif text-xl font-semibold">{f.nombre} por Camila Rua</p>
+        <p className="mt-0.5 font-sans text-sm text-hoja/80">{f.lema}.</p>
+        <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-sans text-sm font-medium">
+          <li>
+            <a href={f.instagram} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href={f.tiktok} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+              TikTok
+            </a>
+          </li>
+          <li>
+            <a href={f.pinterest} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+              Pinterest
+            </a>
           </li>
         </ul>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -339,15 +345,15 @@ function Escritura() {
 
 function Brujula() {
   return (
-    <section id="brujula" className="scroll-mt-20 bg-tinta py-20 text-papel lg:py-28" aria-labelledby="h-brujula">
+    <section id="brujula" className="scroll-mt-20 bg-violeta py-20 text-hoja lg:py-28" aria-labelledby="h-brujula">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Encabezado num="04" titulo="Brújula" id="h-brujula" claro />
-        <p className="aparece mt-4 max-w-2xl text-papel/75">Nombres, objetos y lugares que orientan su mirada.</p>
+        <Encabezado num="04" titulo="Brújula" id="h-brujula" tono="claro" />
+        <p className="aparece mt-4 max-w-2xl text-hoja/75">Nombres, objetos y lugares que orientan su mirada.</p>
         <dl className="escalona mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
           {FAVORITOS.map((f, i) => (
-            <div key={f.etiqueta} className="border-t border-papel/25 pt-5" style={orden(i)}>
+            <div key={f.etiqueta} className="border-t border-hoja/25 pt-5" style={orden(i)}>
               <dt className="etiqueta text-oro">{f.etiqueta}</dt>
-              <dd className="mt-3 font-serif text-[clamp(1.4rem,2vw,1.8rem)] leading-snug text-papel">
+              <dd className="mt-3 font-serif text-[clamp(1.4rem,2vw,1.8rem)] leading-snug text-hoja">
                 {f.valor.map((v) => (
                   <span key={v} className="block">
                     {v}
@@ -373,9 +379,16 @@ function Cierre() {
           Moda, archivo y pensamiento crítico cultural
         </h2>
         <p className="aparece mt-4 text-muted-foreground">
-          Para prensa, charlas, colaboraciones o saber cuándo sale el libro, el camino más corto es Instagram.
+          Para prensa, charlas, colaboraciones o saber cuándo sale el libro, escríbele por correo o por Instagram.
         </p>
         <div className="aparece mt-8 flex flex-wrap justify-center gap-3">
+          <a
+            href={`mailto:${CAMILA.correo}`}
+            className="inline-flex h-12 items-center gap-2 rounded-md bg-violeta px-6 font-sans text-sm font-medium text-hoja transition-colors hover:bg-violeta-700"
+          >
+            <Mail className="size-4" aria-hidden="true" />
+            {CAMILA.correo}
+          </a>
           <a
             href={CAMILA.instagram}
             target="_blank"

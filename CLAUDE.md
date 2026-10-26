@@ -18,6 +18,15 @@ Los secretos (acceso SSH, contraseñas) NO van aquí: están en `CLAUDE.local.md
   página por artículo (`/$slug`). Sin API ni CMS: **todo el contenido vive en `src/lib/contenido.ts`**.
   Publicado en https://camiruatv.com. Repo privado: `santequera1/camiruatv`.
 
+## Escritura (sección 03)
+
+Lista con imagen flotante al pasar el mouse (`EscrituraLista.tsx`, framer-motion), portada de
+`psicomorfosis/docs/hover-image-links-guide.md`. Los textos están en `ESCRITOS` de `contenido.ts`
+(el de Sofoco con página propia y 10 externos sacados del Linktree de Camila). Las imágenes viven en
+`public/escritura/`: las de los medios salen de la imagen destacada de cada artículo (API de WordPress
+de cada sitio) y la de Sofoco es la página 243 del PDF de la revista. El título se escribe solo
+(`Maquina.tsx`). En táctil, cada fila muestra su miniatura fija.
+
 ## Material de origen (`contenido/`, solo local, ignorado por git)
 
 | Qué | Dónde |
@@ -40,7 +49,7 @@ Sale de la cubierta del libro, **sin el patrón de ondas** (Stiven no lo quiere)
 | `papel` | `#f3ecd9` | fondo (crema de la cubierta) |
 | `tinta` | `#1f5a6b` | títulos, lomo, botones, sección Brújula |
 | `oro` | `#f2b84b` | etiqueta del libro, acentos, numeración de secciones |
-| `violeta` | `#6b4f9e` (+ `violeta-300` `#b79bd0`) | acento secundario, hover, halo del libro |
+| `violeta` | `#590186` (el morado de Factedá, su Linktree) | Brújula y menú en morado con texto blanco; Escritura en blanco (`hoja`) con texto morado; acentos |
 
 Tipografía: **EB Garamond** (títulos y lectura) + **DM Sans** (etiquetas, UI). Adornos: marco de doble
 línea punteada (`marco-punteado`), capitular (`capitular`), cinta del lomo. Nunca colores sueltos en
@@ -84,6 +93,6 @@ PM2 `camiruatv`, nginx `camiruatv.com` con certificado de Let's Encrypt. DNS: `@
 ## Pendiente con Camila / Stiven
 
 - Fecha de lanzamiento y enlace de compra o preventa del libro (hoy el hero dice «Próximamente»).
-- Más artículos (El Bolivarense, Melodrama.mx, Entre Soles y Lunas) con enlace o texto.
+- Textos de El Bolivarense y el fanzine digital (está en su Linktree, sin imagen) si se quieren en Escritura.
 - Correo de contacto, si quiere uno público además de Instagram.
 - Confirmar si el texto completo del artículo de Sofoco puede vivir en el sitio o solo el enlace.

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Instagram } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail } from "lucide-react";
 import { CAMILA, LIBRO } from "@/lib/contenido";
 
 export function SiteFooter() {
@@ -24,6 +24,15 @@ export function SiteFooter() {
               >
                 <Instagram className="size-4" aria-hidden="true" />
                 @{CAMILA.usuario}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`mailto:${CAMILA.correo}`}
+                className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-violeta-700"
+              >
+                <Mail className="size-4" aria-hidden="true" />
+                {CAMILA.correo}
               </a>
             </li>
             <li>

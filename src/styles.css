@@ -14,7 +14,9 @@
  *   papel   #f3ecd9  crema de la cubierta
  *   tinta   #1f5a6b  azul petróleo del lomo y la tipografía
  *   oro     #f2b84b  la caja del título
- *   violeta #6b4f9e  el color de Camila, acento secundario
+ *   violeta #590186  el morado de Camila (el de Factedá): secciones en morado
+ *                    con texto blanco, o fondo blanco con texto morado
+ *   hoja    #ffffff  el blanco de esas secciones
  * Tipografía: EB Garamond (títulos y lectura) + DM Sans (etiquetas, UI).
  * Nunca colores sueltos en componentes: siempre estos tokens.
  * ================================================================ */
@@ -66,6 +68,9 @@
   --color-violeta-700: var(--violeta-700);
   --color-violeta-300: var(--violeta-300);
   --color-violeta-100: var(--violeta-100);
+  --color-violeta-900: var(--violeta-900);
+  --color-violeta-50: var(--violeta-50);
+  --color-hoja: var(--hoja);
 
   --shadow-xs: 0 1px 2px rgb(31 58 68 / 0.06);
   --shadow-soft: 0 2px 10px rgb(31 58 68 / 0.08);
@@ -86,10 +91,13 @@
   --oro: #f2b84b;
   --oro-600: #d99a1e;
   --oro-100: #fbe9c3;
-  --violeta: #6b4f9e;
-  --violeta-700: #4e3777;
-  --violeta-300: #b79bd0;
-  --violeta-100: #e8e0f2;
+  --violeta: #590186; /* blanco encima: ~11:1 */
+  --violeta-900: #3a0058;
+  --violeta-700: #4a016f;
+  --violeta-300: #c79be3;
+  --violeta-100: #efe2f8;
+  --violeta-50: #f9f3fd;
+  --hoja: #ffffff;
 
   --background: var(--papel);
   --foreground: #1b3f4b; /* tinta un poco más oscura para lectura: ~9:1 sobre papel */
@@ -192,7 +200,7 @@
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -343,3 +351,16 @@ html.libro-3d-error .libro-respaldo-secundario { opacity: 1; }
 }
 .lomo-marquee { animation: lomo-corre 40s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .lomo-marquee { animation: none; } }
+
+/* Máquina de escribir: el cursor que parpadea mientras se escribe el título */
+.cursor-maquina {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.9em;
+  margin-left: 0.06em;
+  vertical-align: -0.08em;
+  background: currentColor;
+  animation: cursor-parpadea 1s steps(1) infinite;
+}
+@keyframes cursor-parpadea { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor-maquina { animation: none; } }
