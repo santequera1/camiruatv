@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, BookOpen, Instagram, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen, Instagram } from "lucide-react";
+import { BrujulaNombre } from "@/components/sitio/BrujulaNombre";
 import { EscrituraLista } from "@/components/sitio/EscrituraLista";
 import { LibroFlotante, LibroHueco } from "@/components/sitio/LibroFlotante";
 import { Maquina } from "@/components/sitio/Maquina";
@@ -55,10 +56,13 @@ function Hero() {
             id="hero"
             alt={ALT_LIBRO}
             fallbackSrc="/libro-portada.webp"
-            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(78vh,720px)]"
+            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(82vh,760px)]"
           />
           <p className="mt-2 text-center font-sans text-xs text-muted-foreground lg:mt-0">
             Arrástralo para verlo por todos lados · baja para seguirlo
+          </p>
+          <p className="mt-1 text-center font-sans text-[11px] italic text-muted-foreground/80">
+            Imagen de referencia: el diseño final de la cubierta puede cambiar.
           </p>
         </div>
 
@@ -159,7 +163,7 @@ function SobreElLibro() {
               id="libro"
               alt={ALT_LIBRO}
               fallbackSrc="/libro-portada.webp"
-              className="mx-auto aspect-[4/5] w-full max-w-[280px] lg:sticky lg:top-24 lg:max-w-[520px]"
+              className="mx-auto aspect-[4/5] w-full max-w-[330px] lg:sticky lg:top-24 lg:max-w-[560px]"
             />
           </div>
 
@@ -177,6 +181,9 @@ function SobreElLibro() {
                 <dt className="etiqueta text-tinta/70">Con el apoyo de</dt>
                 <dd className="mt-1 font-serif text-lg text-foreground">{LIBRO.apoyo}</dd>
               </div>
+              <p className="font-sans text-xs italic text-muted-foreground sm:col-span-2" style={orden(3)}>
+                La cubierta que ves es una referencia: el diseño final puede cambiar.
+              </p>
               <div className="sm:col-span-2" style={orden(2)}>
                 <dt className="sr-only">Temas</dt>
                 <dd>
@@ -201,13 +208,13 @@ function SobreElLibro() {
 
 function SobreMi() {
   return (
-    <section id="sobre-mi" className="scroll-mt-20 bg-violeta-50 py-20 lg:py-28" aria-labelledby="h-sobre-mi">
+    <section id="sobre-mi" className="scroll-mt-20 bg-hoja py-20 lg:py-28" aria-labelledby="h-sobre-mi">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Encabezado num="02" titulo="Sobre mí" id="h-sobre-mi" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-16">
           <figure className="relative mx-auto w-full max-w-sm self-start lg:sticky lg:top-24 lg:max-w-none">
-            <div className="aparece absolute -inset-3 rounded-sm bg-violeta-100" aria-hidden="true" />
-            <div className="aparece absolute -inset-3 translate-y-3 rounded-sm border border-dashed border-tinta/40 sm:translate-x-3" aria-hidden="true" />
+            <div className="aparece absolute -inset-3 rounded-sm bg-violeta" aria-hidden="true" />
+            <div className="aparece absolute -inset-3 translate-y-3 rounded-sm border border-dashed border-violeta/60 sm:translate-x-3" aria-hidden="true" />
             <div className="aparece-foto relative overflow-hidden rounded-sm shadow-card">
               <img
                 src="/camila.webp"
@@ -269,7 +276,7 @@ function SobreMi() {
 
 function Escritura() {
   return (
-    <section id="escritura" className="scroll-mt-20 bg-hoja py-20 text-violeta lg:py-28" aria-labelledby="h-escritura">
+    <section id="escritura" className="scroll-mt-20 border-t border-violeta/10 bg-hoja py-20 text-violeta lg:py-28" aria-labelledby="h-escritura">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline gap-4">
           <span className="aparece font-sans text-xs font-semibold tracking-[0.2em] text-violeta/60">03</span>
@@ -360,11 +367,11 @@ function Brujula() {
             <div key={f.etiqueta} className="border-t border-hoja/25 pt-5" style={orden(i)}>
               <dt className="etiqueta text-oro">{f.etiqueta}</dt>
               <dd className="mt-3 font-serif text-[clamp(1.4rem,2vw,1.8rem)] leading-snug text-hoja">
-                {f.valor.map((v) => (
-                  <span key={v} className="block">
-                    {v}
-                  </span>
-                ))}
+                <span className="flex flex-col gap-2">
+                  {f.valor.map((v) => (
+                    <BrujulaNombre key={v.nombre} nombre={v.nombre} imagen={v.imagen} />
+                  ))}
+                </span>
               </dd>
             </div>
           ))}
@@ -385,16 +392,9 @@ function Cierre() {
           Moda, archivo y pensamiento crítico cultural
         </h2>
         <p className="aparece mt-4 text-muted-foreground">
-          Para prensa, charlas, colaboraciones o saber cuándo sale el libro, escríbele por correo o por Instagram.
+          Para prensa, charlas, colaboraciones o saber cuándo sale el libro, escríbele por Instagram.
         </p>
         <div className="aparece mt-8 flex flex-wrap justify-center gap-3">
-          <a
-            href={`mailto:${CAMILA.correo}`}
-            className="inline-flex h-12 items-center gap-2 rounded-md bg-violeta px-6 font-sans text-sm font-medium text-hoja transition-colors hover:bg-violeta-700"
-          >
-            <Mail className="size-4" aria-hidden="true" />
-            {CAMILA.correo}
-          </a>
           <a
             href={CAMILA.instagram}
             target="_blank"

@@ -7,7 +7,7 @@
  *    pasa por debajo, da una vuelta y aterriza en el segundo hueco; desde ahí
  *    baja con la página como cualquier otro elemento.
  *  - Se puede arrastrar desde cualquiera de los dos huecos para girarlo.
- *  - Como el canvas es del tamaño de la ventana, la sombra y el halo nunca se
+ *  - Como el canvas es del tamaño de la ventana, la sombra nunca se
  *    cortan en un borde.
  *
  * Solo se importa en el navegador (ver components/sitio/LibroFlotante.tsx).
@@ -102,24 +102,6 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   );
   sombra.rotation.x = -Math.PI / 2;
   grupo.add(sombra);
-
-  // Halo de luz (oro al centro, violeta alrededor) detrás del libro.
-  const hc = document.createElement("canvas");
-  hc.width = hc.height = 256;
-  const hg = hc.getContext("2d")!;
-  const hgrd = hg.createRadialGradient(128, 128, 0, 128, 128, 128);
-  hgrd.addColorStop(0, "rgba(242,184,75,0.45)");
-  hgrd.addColorStop(0.4, "rgba(199,155,227,0.26)");
-  hgrd.addColorStop(0.8, "rgba(199,155,227,0.05)");
-  hgrd.addColorStop(1, "rgba(183,155,208,0)");
-  hg.fillStyle = hgrd;
-  hg.fillRect(0, 0, 256, 256);
-  const haloTex = new THREE.CanvasTexture(hc);
-  haloTex.colorSpace = THREE.SRGBColorSpace;
-  const halo = new THREE.Sprite(
-    new THREE.SpriteMaterial({ map: haloTex, transparent: true, depthWrite: false, toneMapped: false }),
-  );
-  scene.add(halo);
 
   let H = 0.245; // alto del modelo en unidades del archivo
   let ancho = 0.17;
@@ -310,8 +292,10 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     const wx = (cx / vw - 0.5) * visibleH * camera.aspect;
     const wy = (0.5 - cy / vh) * visibleH;
     grupo.position.set(wx, wy, 0);
-    // Alto del libro dentro de su hueco: un poco más en escritorio.
-    const s = ((h * (vw >= 1024 ? 0.8 : 0.72)) / vh) * visibleH / H;
+    // Alto del libro dentro de su hueco: más en escritorio; en celular crece
+    // al llegar a «Sobre el libro», donde hay más espacio.
+    const factor = vw >= 1024 ? 0.84 : lerp(0.72, 0.86, p);
+    const s = ((h * factor) / vh) * visibleH / H;
     grupo.scale.setScalar(s);
 
     // Giro. En el hero gira solo (se pausa 2 s después de arrastrar). Al viajar
@@ -333,10 +317,6 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     grupo.rotation.y = lerp(anguloHero, llegada, p) + mecer + giroArrastre;
     grupo.rotation.x = 0.1 + inclinacion;
 
-    halo.position.set(wx, wy, -ancho * 2 * s);
-    const hs = s * H * 1.85;
-    halo.scale.set(hs, hs, 1);
-    halo.material.opacity = reduceMotion ? 1 : 0.9 + 0.1 * Math.sin(ahora / 1800);
     return true;
   }
 
@@ -399,8 +379,6 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
           }
         });
       }
-      halo.material.map?.dispose();
-      halo.material.dispose();
       sombra.geometry.dispose();
       (sombra.material as THREE.MeshBasicMaterial).map?.dispose();
       (sombra.material as THREE.MeshBasicMaterial).dispose();

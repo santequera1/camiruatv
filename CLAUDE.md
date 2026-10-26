@@ -27,6 +27,13 @@ Lista con imagen flotante al pasar el mouse (`EscrituraLista.tsx`, framer-motion
 de cada sitio) y la de Sofoco es la página 243 del PDF de la revista. El título se escribe solo
 (`Maquina.tsx`). En táctil, cada fila muestra su miniatura fija.
 
+## Brújula (sección 04)
+
+Cada nombre puede llevar imagen (`FAVORITOS` en `contenido.ts`): en escritorio aparece flotando al pasar
+el mouse (`BrujulaNombre.tsx`) y en celular va como miniatura. Las originales van en `contenido/brujula/`
+(local, fuera de git) y `node scripts/brujula.mjs` las convierte a `public/brujula/`. Las actuales son
+**de prueba** (sacadas de internet por Stiven) hasta que Camila mande las suyas; falta la de Heroica.
+
 ## Material de origen (`contenido/`, solo local, ignorado por git)
 
 | Qué | Dónde |

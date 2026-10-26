@@ -52,13 +52,44 @@ export const LIBRO = {
   temas: ["Género", "Hipismo", "Moda y vestir", "Medellín", "1967–1975", "Subculturas", "Archivo"],
 };
 
-export const FAVORITOS = [
-  { etiqueta: "Primera diseñadora de la que me enamoré", valor: ["Elsa Schiaparelli"] },
-  { etiqueta: "Diseño de autor colombiano", valor: ["La Petite Mort", "Heroica"] },
-  { etiqueta: "Autoras", valor: ["Marvel Moreno", "Idea Vilariño"] },
-  { etiqueta: "Teóricos", valor: ["Judith Butler", "Joanne Entwistle", "Michel Foucault"] },
-  { etiqueta: "Accesorio", valor: ["Pañoletas"] },
-  { etiqueta: "Lugar", valor: ["Los archivos, en especial el Archivo Histórico de Medellín"] },
+/**
+ * Brújula. Las imágenes son de prueba hasta que Camila mande las suyas: se
+ * ponen en contenido/brujula/ y se corre `node scripts/brujula.mjs`, que las
+ * deja en public/brujula/ con estos nombres. Sin imagen, el nombre va solo.
+ */
+export type NombreBrujula = { nombre: string; imagen?: string };
+
+export const FAVORITOS: { etiqueta: string; valor: NombreBrujula[] }[] = [
+  { etiqueta: "Primera diseñadora de la que me enamoré", valor: [{ nombre: "Elsa Schiaparelli", imagen: "/brujula/schiaparelli.webp" }] },
+  {
+    etiqueta: "Diseño de autor colombiano",
+    valor: [{ nombre: "La Petite Mort", imagen: "/brujula/la-petite-mort.webp" }, { nombre: "Heroica" }],
+  },
+  {
+    etiqueta: "Autoras",
+    valor: [
+      { nombre: "Marvel Moreno", imagen: "/brujula/marvel-moreno.webp" },
+      { nombre: "Idea Vilariño", imagen: "/brujula/idea-vilarino.webp" },
+    ],
+  },
+  {
+    etiqueta: "Teóricos",
+    valor: [
+      { nombre: "Judith Butler", imagen: "/brujula/judith-butler.webp" },
+      { nombre: "Joanne Entwistle", imagen: "/brujula/joanne-entwistle.webp" },
+      { nombre: "Michel Foucault", imagen: "/brujula/michel-foucault.webp" },
+    ],
+  },
+  { etiqueta: "Accesorio", valor: [{ nombre: "Pañoletas", imagen: "/brujula/panoletas.webp" }] },
+  {
+    etiqueta: "Lugar",
+    valor: [
+      {
+        nombre: "Los archivos, en especial el Archivo Histórico de Medellín",
+        imagen: "/brujula/archivo-historico-medellin.webp",
+      },
+    ],
+  },
 ];
 
 export type Articulo = {

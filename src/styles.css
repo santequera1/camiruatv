@@ -292,11 +292,17 @@ html.js .escalona > * {
   transition: opacity 800ms var(--entrada-ease), transform 800ms var(--entrada-ease);
   transition-delay: calc(var(--i, 0) * 90ms);
 }
-html.js .aparece.visible, html.sin-observer .aparece,
-html.js .aparece-titulo.visible, html.sin-observer .aparece-titulo {
+html.js .aparece.visible, html.sin-observer .aparece {
   opacity: 1;
   transform: none;
   filter: none;
+}
+/* Solo los títulos llevan recorte (para la animación de «imprimirse»).
+   Ojo: si esto se agrupa con .aparece, recorta también las imágenes
+   flotantes de Escritura y Brújula. */
+html.js .aparece-titulo.visible, html.sin-observer .aparece-titulo {
+  opacity: 1;
+  transform: none;
   clip-path: inset(-0.2em 0 -0.2em 0);
 }
 html.js .aparece-foto.visible, html.sin-observer .aparece-foto {
