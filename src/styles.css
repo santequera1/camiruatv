@@ -121,6 +121,23 @@
   --ring: var(--violeta);
 }
 
+/* ----------------------------------------------------------------
+ * Tema «libro» (libro.camiruatv.com): el mismo sitio con los colores de la
+ * cubierta. El morado pasa a tinta y el blanco a papel; como los componentes
+ * solo usan tokens, basta con redefinirlos aquí. Lo activa un script en
+ * <head> (ver __root.tsx) según el dominio o con ?tema=libro.
+ * ---------------------------------------------------------------- */
+html[data-tema="libro"] {
+  --violeta: #1f5a6b;
+  --violeta-900: #0e3340;
+  --violeta-700: #174856;
+  --violeta-300: #8fb3bd;
+  --violeta-100: #d6e4e8;
+  --violeta-50: #ebe2c6;
+  --hoja: #f3ecd9;
+  --background: var(--papel);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);

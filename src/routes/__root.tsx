@@ -62,7 +62,14 @@ export const Route = createRootRoute({
     ],
     // Marca que hay JS antes de pintar: así `.aparece` solo se oculta cuando
     // de verdad va a aparecer (ver styles.css).
-    scripts: [{ children: "document.documentElement.classList.add('js')" }],
+    scripts: [
+      {
+        // `js` activa las animaciones de entrada; el tema «libro» se elige por
+        // dominio (libro.camiruatv.com) o con ?tema=libro, antes de pintar.
+        children:
+          "(function(d){d.classList.add('js');try{var l=location;if(l.hostname.indexOf('libro.')===0||new URLSearchParams(l.search).get('tema')==='libro'){d.setAttribute('data-tema','libro');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#f3ecd9');}}catch(e){}})(document.documentElement)",
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

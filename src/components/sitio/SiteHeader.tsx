@@ -72,7 +72,7 @@ export function SiteHeader() {
             onClick={abierto ? cerrar : abrir}
             aria-expanded={abierto}
             aria-controls="menu-pantalla"
-            className="group relative z-[60] inline-flex h-10 items-center gap-3 rounded-full border border-tinta/30 bg-hoja/70 px-4 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-tinta backdrop-blur-sm transition-colors hover:border-violeta hover:bg-violeta hover:text-hoja focus-visible:bg-violeta focus-visible:text-hoja"
+            className="group relative z-[60] inline-flex h-10 items-center gap-3 rounded-full border border-violeta bg-violeta px-4 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-hoja shadow-soft transition-colors hover:border-violeta-700 hover:bg-violeta-700"
           >
             <span className="relative block h-3 w-3.5" aria-hidden="true">
               <span className="absolute inset-x-0 top-0 h-px bg-current transition-transform duration-300" />
