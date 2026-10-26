@@ -63,7 +63,10 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
       id={`libro-hueco-${id}`}
       role="img"
       aria-label={alt}
-      className={cn("relative touch-pan-y select-none cursor-grab active:cursor-grabbing", className)}
+      className={cn(
+        "relative touch-pan-y select-none cursor-grab [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] active:cursor-grabbing",
+        className,
+      )}
     >
       {fallbackSrc && (
         <img
@@ -75,7 +78,8 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
           decoding="async"
           draggable={false}
           className={cn(
-            "libro-respaldo pointer-events-none absolute inset-0 h-full w-full object-contain",
+            // Mismo alto que el libro 3D (72 % del hueco) para que el cambio no se note.
+            "libro-respaldo pointer-events-none absolute inset-0 m-auto h-[72%] w-auto max-w-full object-contain drop-shadow-[0_24px_24px_rgb(31_58_68/0.18)]",
             id !== "hero" && "libro-respaldo-secundario",
           )}
         />

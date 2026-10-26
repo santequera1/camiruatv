@@ -46,7 +46,12 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   const velocidad = o.velocidad ?? 0.35;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+    powerPreference: "high-performance",
+    precision: "highp",
+  });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping; // respeta los colores de la portada
@@ -72,7 +77,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
 
   // Cámara fija mirando al origen; el libro se mueve delante de ella.
   const DIST = 2;
-  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 10);
+  const camera = new THREE.PerspectiveCamera(28, 1, 1, 3.2);
   camera.position.set(0, 0, DIST);
   camera.lookAt(0, 0, 0);
 
@@ -166,9 +171,13 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   function layout() {
     vw = host.clientWidth || window.innerWidth;
     vh = host.clientHeight || window.innerHeight;
-    renderer.setSize(vw, vh, false);
+    const anchoPx = Math.round(vw);
+    const altoPx = Math.round(vh);
+    const actual = renderer.getSize(new THREE.Vector2());
+    if (actual.x !== anchoPx || actual.y !== altoPx) renderer.setSize(anchoPx, altoPx, false);
     camera.aspect = vw / vh;
     camera.updateProjectionMatrix();
+    if (listo && colocar(performance.now())) renderer.render(scene, camera);
   }
   const ro = new ResizeObserver(layout);
   ro.observe(host);

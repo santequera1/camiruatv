@@ -135,6 +135,8 @@ export function SiteHeader() {
             </nav>
 
             <div className="menu-item mt-10 flex flex-col gap-4 lg:mt-0 lg:items-end lg:text-right" style={{ "--i": 5 } as React.CSSProperties}>
+              {/* La flor de Factedá: solo en el menú del celular */}
+              <img src="/flor.webp" alt="" width={400} height={400} decoding="async" className="flor-mece size-24 self-start drop-shadow-[0_12px_20px_rgb(0_0_0/0.3)] lg:hidden" />
               <p className="max-w-xs font-serif text-lg leading-snug text-papel/80">
                 {LIBRO.titulo}. {LIBRO.subtitulo}
               </p>

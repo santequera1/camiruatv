@@ -36,7 +36,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#f3ecd9" },
+      { name: "theme-color", content: "#ffffff" },
       { title: titulo() },
       { name: "description", content: DESCRIPCION },
       { property: "og:site_name", content: SITE_NAME },

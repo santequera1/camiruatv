@@ -42,7 +42,7 @@ const orden = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden" aria-labelledby="titulo-libro">
+    <section className="relative overflow-hidden bg-hoja" aria-labelledby="titulo-libro">
       {/* Marco punteado de la cubierta, como fondo discreto del hero */}
       <div
         className="marco-punteado pointer-events-none absolute inset-x-4 top-4 bottom-4 rounded-sm sm:inset-x-8 lg:inset-x-12"
@@ -147,7 +147,7 @@ function Encabezado({ num, titulo: t, id, tono = "tinta" }: { num: string; titul
 
 function SobreElLibro() {
   return (
-    <section id="libro" className="scroll-mt-20 py-20 lg:py-28" aria-labelledby="h-libro">
+    <section id="libro" className="scroll-mt-20 bg-papel py-20 lg:py-28" aria-labelledby="h-libro">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Encabezado num="01" titulo="Sobre el libro" id="h-libro" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
@@ -201,13 +201,13 @@ function SobreElLibro() {
 
 function SobreMi() {
   return (
-    <section id="sobre-mi" className="scroll-mt-20 bg-papel-2/50 py-20 lg:py-28" aria-labelledby="h-sobre-mi">
+    <section id="sobre-mi" className="scroll-mt-20 bg-violeta-50 py-20 lg:py-28" aria-labelledby="h-sobre-mi">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Encabezado num="02" titulo="Sobre mí" id="h-sobre-mi" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-16">
           <figure className="relative mx-auto w-full max-w-sm self-start lg:sticky lg:top-24 lg:max-w-none">
             <div className="aparece absolute -inset-3 rounded-sm bg-violeta-100" aria-hidden="true" />
-            <div className="aparece absolute -inset-3 translate-x-3 translate-y-3 rounded-sm border border-dashed border-tinta/40" aria-hidden="true" />
+            <div className="aparece absolute -inset-3 translate-y-3 rounded-sm border border-dashed border-tinta/40 sm:translate-x-3" aria-hidden="true" />
             <div className="aparece-foto relative overflow-hidden rounded-sm shadow-card">
               <img
                 src="/camila.webp"
@@ -347,8 +347,14 @@ function Brujula() {
   return (
     <section id="brujula" className="scroll-mt-20 bg-violeta py-20 text-hoja lg:py-28" aria-labelledby="h-brujula">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Encabezado num="04" titulo="Brújula" id="h-brujula" tono="claro" />
-        <p className="aparece mt-4 max-w-2xl text-hoja/75">Nombres, objetos y lugares que orientan su mirada.</p>
+        <div className="relative">
+          <Encabezado num="04" titulo="Brújula" id="h-brujula" tono="claro" />
+          <p className="aparece mt-4 max-w-2xl text-hoja/75">Nombres, objetos y lugares que orientan su mirada.</p>
+          {/* La flor de Factedá, en el espacio libre junto al título (solo escritorio) */}
+          <div className="aparece pointer-events-none absolute -top-10 right-0 hidden lg:block" aria-hidden="true">
+            <img src="/flor.webp" alt="" width={400} height={400} loading="lazy" decoding="async" className="flor-mece relative size-52" />
+          </div>
+        </div>
         <dl className="escalona mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
           {FAVORITOS.map((f, i) => (
             <div key={f.etiqueta} className="border-t border-hoja/25 pt-5" style={orden(i)}>

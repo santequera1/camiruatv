@@ -46,7 +46,7 @@ Sale de la cubierta del libro, **sin el patrón de ondas** (Stiven no lo quiere)
 
 | Token | Valor | Uso |
 |---|---|---|
-| `papel` | `#f3ecd9` | fondo (crema de la cubierta) |
+| `papel` | `#f3ecd9` | crema de la cubierta: **solo** en «Sobre el libro». El resto del sitio es blanco (`hoja`) y «Sobre mí» lila muy claro (`violeta-50`) |
 | `tinta` | `#1f5a6b` | títulos, lomo, botones, sección Brújula |
 | `oro` | `#f2b84b` | etiqueta del libro, acentos, numeración de secciones |
 | `violeta` | `#590186` (el morado de Factedá, su Linktree) | Brújula y menú en morado con texto blanco; Escritura en blanco (`hoja`) con texto morado; acentos |

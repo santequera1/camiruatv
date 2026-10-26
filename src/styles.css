@@ -99,7 +99,7 @@
   --violeta-50: #f9f3fd;
   --hoja: #ffffff;
 
-  --background: var(--papel);
+  --background: var(--hoja); /* el sitio es blanco; solo «Sobre el libro» lleva el papel */
   --foreground: #1b3f4b; /* tinta un poco más oscura para lectura: ~9:1 sobre papel */
   --card: #f8f3e6;
   --card-foreground: #1b3f4b;
@@ -124,6 +124,11 @@
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+  html, body {
+    /* Nada se sale por los lados: en celular eso dejaba mover la página de
+       lado al arrastrar el libro. `clip` (no `hidden`) no rompe el sticky. */
+    overflow-x: clip;
   }
   html {
     font-family: var(--font-serif);
@@ -298,11 +303,17 @@ html.js .escalona.visible > *, html.sin-observer .escalona > * {
 .libro-respaldo {
   transition: opacity 700ms var(--entrada-ease);
 }
-html.js:not(.libro-3d-listo):not(.libro-3d-error) .libro-respaldo { animation: pulse 2s ease-in-out infinite; }
 html.libro-3d-listo .libro-respaldo { opacity: 0; }
 .libro-respaldo-secundario { opacity: 0; }
 html.libro-3d-error .libro-respaldo-secundario { opacity: 1; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* La flor de Factedá se mece despacio */
+@keyframes flor-mece {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-6px); }
+}
+.flor-mece { animation: flor-mece 9s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .flor-mece { animation: none; } }
 
 /* ----------------------------------------------------------------
  * Menú a pantalla completa: cae como un telón y los elementos entran
