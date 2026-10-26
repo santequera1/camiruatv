@@ -35,7 +35,7 @@ export function BrujulaNombre({ nombre, imagen }: { nombre: string; imagen?: str
         x.set(0);
         y.set(0);
       }}
-      className="group relative flex w-fit cursor-default items-center gap-3 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-oro"
+      className="group relative flex w-fit cursor-default items-center gap-3 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-lima"
     >
       {/* Miniatura fija en táctil */}
       <img
@@ -47,7 +47,7 @@ export function BrujulaNombre({ nombre, imagen }: { nombre: string; imagen?: str
         decoding="async"
         className="size-11 shrink-0 rounded-full border-2 border-hoja/70 object-cover md:hidden"
       />
-      <span className="decoration-oro/70 underline-offset-[6px] transition-colors group-hover:underline">{nombre}</span>
+      <span className="decoration-lima underline-offset-[6px] transition-colors group-hover:underline">{nombre}</span>
 
       {/* Imagen flotante en escritorio */}
       <motion.img

@@ -103,7 +103,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={cerrar}
-              className="menu-item inline-flex h-10 items-center gap-3 rounded-full border border-papel/40 px-4 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-papel transition-colors hover:border-oro hover:text-oro"
+              className="menu-item inline-flex h-10 items-center gap-3 rounded-full border border-papel/40 px-4 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-papel transition-colors hover:border-lima hover:text-lima"
               style={{ "--i": 0 } as React.CSSProperties}
             >
               <span className="relative block h-3 w-3.5" aria-hidden="true">
@@ -122,9 +122,9 @@ export function SiteHeader() {
                     <a
                       href={enlace(s.href)}
                       onClick={cerrar}
-                      className="group flex items-baseline gap-4 py-1 font-serif text-[clamp(2.6rem,8vw,6rem)] font-semibold leading-[1.02] text-papel transition-colors hover:text-oro"
+                      className="group flex items-baseline gap-4 py-1 font-serif text-[clamp(2.6rem,8vw,6rem)] font-semibold leading-[1.02] text-papel transition-colors hover:text-lima focus-visible:text-lima"
                     >
-                      <span className="font-sans text-xs font-semibold tracking-[0.2em] text-oro/80 transition-transform duration-300 group-hover:translate-x-1">
+                      <span className="font-sans text-xs font-semibold tracking-[0.2em] text-lima/80 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-lima">
                         {s.num}
                       </span>
                       {s.label}
@@ -145,7 +145,7 @@ export function SiteHeader() {
                   href={CAMILA.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-11 items-center gap-2 rounded-md bg-oro px-5 font-sans text-sm font-medium text-tinta-900 transition-colors hover:bg-oro-600"
+                  className="inline-flex h-11 items-center gap-2 rounded-md bg-lima px-5 font-sans text-sm font-medium text-violeta-900 transition-colors hover:bg-hoja"
                 >
                   <Instagram className="size-4" aria-hidden="true" />
                   Instagram
@@ -154,7 +154,7 @@ export function SiteHeader() {
                   href={CAMILA.linktree}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-11 items-center gap-2 rounded-md border border-papel/40 px-5 font-sans text-sm font-medium text-papel transition-colors hover:border-oro hover:text-oro"
+                  className="inline-flex h-11 items-center gap-2 rounded-md border border-papel/40 px-5 font-sans text-sm font-medium text-papel transition-colors hover:border-lima hover:text-lima"
                 >
                   Todos los enlaces <ArrowUpRight className="size-4" aria-hidden="true" />
                 </a>

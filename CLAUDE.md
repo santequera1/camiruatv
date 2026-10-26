@@ -56,6 +56,7 @@ Sale de la cubierta del libro, **sin el patrón de ondas** (Stiven no lo quiere)
 | `papel` | `#f3ecd9` | crema de la cubierta: **solo** en «Sobre el libro». El resto del sitio es blanco (`hoja`) y «Sobre mí» lila muy claro (`violeta-50`) |
 | `tinta` | `#1f5a6b` | títulos, lomo, botones, sección Brújula |
 | `oro` | `#f2b84b` | etiqueta del libro, acentos, numeración de secciones |
+| `lima` | `#c5ff72` (color oficial enviado por Camila) | acentos: etiqueta «Libro · Próximamente», números de sección, viñetas de trayectoria, etiquetas de Brújula, hover del menú. Sobre blanco va de **fondo** con texto morado; sobre morado, como texto. Nunca texto lima sobre blanco (no se lee) |
 | `violeta` | `#590186` (el morado de Factedá, su Linktree) | Brújula y menú en morado con texto blanco; Escritura en blanco (`hoja`) con texto morado; acentos |
 
 **Dos temas, un solo código.** https://camiruatv.com usa la paleta de arriba (blanco y morado).

@@ -17,6 +17,7 @@
  *   violeta #590186  el morado de Camila (el de Factedá): secciones en morado
  *                    con texto blanco, o fondo blanco con texto morado
  *   hoja    #ffffff  el blanco de esas secciones
+ *   lima    #c5ff72  acentos (números, viñetas, etiquetas, menú)
  * Tipografía: EB Garamond (títulos y lectura) + DM Sans (etiquetas, UI).
  * Nunca colores sueltos en componentes: siempre estos tokens.
  * ================================================================ */
@@ -71,6 +72,7 @@
   --color-violeta-900: var(--violeta-900);
   --color-violeta-50: var(--violeta-50);
   --color-hoja: var(--hoja);
+  --color-lima: var(--lima);
 
   --shadow-xs: 0 1px 2px rgb(31 58 68 / 0.06);
   --shadow-soft: 0 2px 10px rgb(31 58 68 / 0.08);
@@ -98,6 +100,10 @@
   --violeta-100: #efe2f8;
   --violeta-50: #f9f3fd;
   --hoja: #ffffff;
+  /* Lima oficial de Camila para acentos: números de sección, viñetas,
+     etiquetas y el menú. Es muy claro: sobre blanco va de FONDO (con texto
+     morado); sobre morado va como texto. Nunca texto lima sobre blanco. */
+  --lima: #c5ff72;
 
   --background: var(--hoja); /* el sitio es blanco; solo «Sobre el libro» lleva el papel */
   --foreground: #1b3f4b; /* tinta un poco más oscura para lectura: ~9:1 sobre papel */

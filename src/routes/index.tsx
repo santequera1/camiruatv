@@ -68,7 +68,7 @@ function Hero() {
 
         <div className="escalona visible order-2 text-center lg:order-1 lg:text-left">
           <p
-            className="inline-flex items-center gap-2 rounded-sm bg-oro px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-tinta-900"
+            className="inline-flex items-center gap-2 rounded-sm bg-lima px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-violeta-900"
             style={orden(0)}
           >
             <BookOpen className="size-3.5" aria-hidden="true" />
@@ -134,14 +134,15 @@ function CintaLomo() {
 /* ------------------------------------------------------------------ */
 
 const TONOS = {
-  tinta: { num: "text-oro-600", titulo: "text-tinta" },
-  claro: { num: "text-oro", titulo: "text-hoja" },
+  // Sobre fondo claro el número es una etiqueta lima; sobre morado, texto lima.
+  tinta: { num: "rounded-sm bg-lima px-1.5 py-0.5 font-sans text-xs font-semibold tracking-[0.2em] text-violeta-900", titulo: "text-tinta" },
+  claro: { num: "font-sans text-xs font-semibold tracking-[0.2em] text-lima", titulo: "text-hoja" },
 };
 
 function Encabezado({ num, titulo: t, id, tono = "tinta" }: { num: string; titulo: string; id?: string; tono?: keyof typeof TONOS }) {
   return (
     <div className="flex items-baseline gap-4">
-      <span className={`aparece font-sans text-xs font-semibold tracking-[0.2em] ${TONOS[tono].num}`}>{num}</span>
+      <span className={`aparece self-center ${TONOS[tono].num}`}>{num}</span>
       <h2 id={id} className={`aparece-titulo font-serif text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-tight ${TONOS[tono].titulo}`}>
         {t}
       </h2>
@@ -226,7 +227,7 @@ function SobreMi() {
                 className="aspect-[2/3] w-full object-cover"
               />
             </div>
-            <figcaption className="aparece relative mt-5 font-sans text-xs text-muted-foreground">
+            <figcaption className="aparece relative mt-5 font-sans text-xs text-hoja/85">
               {CAMILA.lema}. Aprender y escuchar.
             </figcaption>
           </figure>
@@ -245,7 +246,7 @@ function SobreMi() {
             <ol className="escalona mt-10 grid gap-x-8 gap-y-5 border-t border-border pt-8 sm:grid-cols-2">
               {CAMILA.trayectoria.map((t, i) => (
                 <li key={t.titulo} className="flex gap-3" style={orden(i)}>
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-oro-600" aria-hidden="true" />
+                  <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-lima ring-1 ring-violeta/50" aria-hidden="true" />
                   <div>
                     <p className="font-serif text-lg font-medium leading-snug text-foreground">{t.titulo}</p>
                     <p className="mt-0.5 font-sans text-sm text-muted-foreground">{t.detalle}</p>
@@ -279,7 +280,7 @@ function Escritura() {
     <section id="escritura" className="scroll-mt-20 border-t border-violeta/10 bg-hoja py-20 text-violeta lg:py-28" aria-labelledby="h-escritura">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline gap-4">
-          <span className="aparece font-sans text-xs font-semibold tracking-[0.2em] text-violeta/60">03</span>
+          <span className="aparece self-center rounded-sm bg-lima px-1.5 py-0.5 font-sans text-xs font-semibold tracking-[0.2em] text-violeta-900">03</span>
           <h2 id="h-escritura" className="font-serif text-[clamp(2.4rem,5vw,4rem)] font-semibold leading-tight text-violeta">
             <Maquina texto="Escritura" />
           </h2>
@@ -365,7 +366,7 @@ function Brujula() {
         <dl className="escalona mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
           {FAVORITOS.map((f, i) => (
             <div key={f.etiqueta} className="border-t border-hoja/25 pt-5" style={orden(i)}>
-              <dt className="etiqueta text-oro">{f.etiqueta}</dt>
+              <dt className="etiqueta text-lima">{f.etiqueta}</dt>
               <dd className="mt-3 font-serif text-[clamp(1.4rem,2vw,1.8rem)] leading-snug text-hoja">
                 <span className="flex flex-col gap-2">
                   {f.valor.map((v) => (
