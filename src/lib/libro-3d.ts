@@ -310,7 +310,8 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     const wx = (cx / vw - 0.5) * visibleH * camera.aspect;
     const wy = (0.5 - cy / vh) * visibleH;
     grupo.position.set(wx, wy, 0);
-    const s = ((h * 0.72) / vh) * visibleH / H;
+    // Alto del libro dentro de su hueco: un poco más en escritorio.
+    const s = ((h * (vw >= 1024 ? 0.8 : 0.72)) / vh) * visibleH / H;
     grupo.scale.setScalar(s);
 
     // Giro. En el hero gira solo (se pausa 2 s después de arrastrar). Al viajar

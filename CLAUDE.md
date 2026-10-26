@@ -51,6 +51,13 @@ Sale de la cubierta del libro, **sin el patrón de ondas** (Stiven no lo quiere)
 | `oro` | `#f2b84b` | etiqueta del libro, acentos, numeración de secciones |
 | `violeta` | `#590186` (el morado de Factedá, su Linktree) | Brújula y menú en morado con texto blanco; Escritura en blanco (`hoja`) con texto morado; acentos |
 
+**Dos temas, un solo código.** https://camiruatv.com usa la paleta de arriba (blanco y morado).
+https://libro.camiruatv.com es el mismo sitio con los colores del libro: `html[data-tema="libro"]` en
+`styles.css` redefine `violeta*` como la tinta y `hoja` como el papel. Un script en `<head>`
+(`__root.tsx`) pone el tema según el dominio, o con `?tema=libro` para probar en local. El subdominio
+lleva `X-Robots-Tag: noindex` (nginx) para no duplicar contenido en buscadores. Componentes nuevos:
+usar siempre tokens (`violeta`, `hoja`…) para que funcionen en los dos temas.
+
 Tipografía: **EB Garamond** (títulos y lectura) + **DM Sans** (etiquetas, UI). Adornos: marco de doble
 línea punteada (`marco-punteado`), capitular (`capitular`), cinta del lomo. Nunca colores sueltos en
 componentes: siempre los tokens.

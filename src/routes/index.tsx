@@ -55,7 +55,7 @@ function Hero() {
             id="hero"
             alt={ALT_LIBRO}
             fallbackSrc="/libro-portada.webp"
-            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(74vh,680px)]"
+            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(78vh,720px)]"
           />
           <p className="mt-2 text-center font-sans text-xs text-muted-foreground lg:mt-0">
             Arrástralo para verlo por todos lados · baja para seguirlo
@@ -159,7 +159,7 @@ function SobreElLibro() {
               id="libro"
               alt={ALT_LIBRO}
               fallbackSrc="/libro-portada.webp"
-              className="mx-auto aspect-[4/5] w-full max-w-[280px] lg:sticky lg:top-24 lg:max-w-[490px]"
+              className="mx-auto aspect-[4/5] w-full max-w-[280px] lg:sticky lg:top-24 lg:max-w-[520px]"
             />
           </div>
 

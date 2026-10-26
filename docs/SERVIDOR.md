@@ -9,7 +9,8 @@ Corren ~30 proyectos más: no tocar procesos PM2, sitios nginx ni crons ajenos.
 | SSR | `srvx` en `127.0.0.1:3242`, proceso PM2 `camiruatv` (`ecosystem.config.cjs`) |
 | nginx | `/etc/nginx/sites-available/camiruatv.com` (copia de `nginx/camiruatv.com.conf` + bloques de certbot) |
 | TLS | Let's Encrypt con certbot (renovación automática). `www` y HTTP redirigen a `https://camiruatv.com` |
-| DNS | `camiruatv.com` y `www` → `51.195.109.26` |
+| DNS | `camiruatv.com`, `www` y comodín `*` → `51.195.109.26` |
+| Tema libro | `libro.camiruatv.com` en el mismo sitio nginx y el mismo certificado; `noindex` por `map $host` |
 | Chunks viejos | `~/apps/camiruatv-assets-keep/` guarda los `assets/` de builds anteriores 14 días |
 
 ## Deploy
