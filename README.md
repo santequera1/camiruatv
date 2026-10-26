@@ -9,7 +9,9 @@ sitio es su libro *Desvistiendo otros estilos*, que se muestra en 3D en la porta
 - **Tailwind CSS v4** con los tokens de marca en `src/styles.css` (crema, tinta, oro y violeta, sacados de
   la cubierta del libro). Componentes shadcn/ui en `src/components/ui/`.
 - **three.js** para el libro (`src/lib/libro-3d.ts`), importado solo en el navegador desde
-  `src/components/sitio/Libro3D.tsx`. Si WebGL falla se muestra `public/libro-portada.webp`.
+  `src/components/sitio/LibroFlotante.tsx`: un canvas fijo a pantalla completa dibuja el libro sobre los
+  huecos de la página y lo hace viajar del hero a «Sobre el libro» con el scroll. Si WebGL falla se
+  muestra `public/libro-portada.webp`.
 - El contenido (bio, libro, artículos, favoritos) vive en `src/lib/contenido.ts`.
 
 ## Desarrollo

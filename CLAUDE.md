@@ -9,8 +9,12 @@ Los secretos (acceso SSH, contraseñas) NO van aquí: están en `CLAUDE.local.md
   magíster en Sociología (Universidad de Antioquia). Lo construye Stiven Antequera. Comunicación en español.
 - **El gancho es el libro**: `Desvistiendo otros estilos. Performatividades de género, hipismo, moda y
   vestir en Medellín (1967–1975)` (Fondo Editorial Remington, con estímulo del Ministerio de las Culturas).
-  El hero lo muestra en 3D (three.js, modelo `public/libro-desvistiendo.glb`) girando y arrastrable.
-- Estado al 26 oct 2026: página de inicio (hero 3D, sinopsis, bio, escritura, brújula, cierre) y una
+  Se muestra en 3D (three.js, modelo `public/libro-desvistiendo.glb`): un canvas transparente fijo a
+  pantalla completa (`LibroFlotante`) dibuja el libro sobre dos huecos del DOM (`LibroHueco` en el hero y
+  en «Sobre el libro»). En escritorio el libro flota mientras el hero pasa por debajo, da una vuelta y
+  aterriza en el segundo hueco (pegajoso); en móvil se va con el hero y vuelve a caer desde arriba al
+  llegar a la sección. Se arrastra desde cualquiera de los huecos. Detalle en `src/lib/libro-3d.ts`.
+- Estado al 26 oct 2026: página de inicio (hero 3D, libro flotante, sinopsis, bio, escritura, brújula, cierre) y una
   página por artículo (`/$slug`). Sin API ni CMS: **todo el contenido vive en `src/lib/contenido.ts`**.
   Publicado en https://camiruatv.com. Repo privado: `santequera1/camiruatv`.
 
@@ -48,7 +52,9 @@ Igual que Cosas a la Venta (`C:\Users\STIVEN ANTEQUERA\Desktop\gitproyectos\cosa
 (SSR) + React 19 + Vite 7 + TypeScript estricto, alias `@/` → `src/`. Rutas por archivo en `src/routes/`;
 datos en el `loader`, SEO en `head()`. Tailwind v4 con tokens en `@theme`, shadcn/Radix (`src/components/ui/`),
 lucide, sonner, vaul, embla, react-hook-form + zod. `three` solo se importa en el navegador
-(`src/lib/libro-3d.ts`, cargado con `import()` desde `Libro3D.tsx`). Versiones `@tanstack/*` exactas.
+(`src/lib/libro-3d.ts`, cargado con `import()` desde `LibroFlotante.tsx`). Menú a pantalla completa
+con telón y entradas escalonadas (`SiteHeader.tsx`); animaciones de entrada por clase (`.aparece`,
+`.aparece-titulo`, `.aparece-foto`, `.escalona`) activadas por `Aparecer.tsx`. Versiones `@tanstack/*` exactas.
 Solo npm, `package-lock.json` en el repo. Sin Lovable ni Cloudflare. Producción: `srvx` (`server.mjs`)
 detrás de nginx, con PM2.
 

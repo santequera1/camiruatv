@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 
+const SELECTOR = ".aparece, .aparece-titulo, .aparece-foto, .escalona";
+
 /**
- * Activa la clase `.visible` en los elementos `.aparece` cuando entran en
- * pantalla. Sin JS (o sin IntersectionObserver) todo se ve desde el inicio.
+ * Activa la clase `.visible` en los elementos con animación de entrada
+ * (`.aparece`, `.aparece-titulo`, `.aparece-foto`, `.escalona`) cuando entran
+ * en pantalla. Sin JS (o sin IntersectionObserver) todo se ve desde el inicio.
  */
 export function Aparecer() {
   useEffect(() => {
@@ -19,9 +22,12 @@ export function Aparecer() {
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
     );
-    const observar = () => document.querySelectorAll(".aparece:not(.visible)").forEach((el) => observer.observe(el));
+    const observar = () =>
+      document.querySelectorAll(SELECTOR).forEach((el) => {
+        if (!el.classList.contains("visible")) observer.observe(el);
+      });
     observar();
     // Al navegar entre rutas aparecen elementos nuevos.
     const mo = new MutationObserver(observar);
