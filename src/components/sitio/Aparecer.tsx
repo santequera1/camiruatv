@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 
 const SELECTOR = ".aparece, .aparece-titulo, .aparece-foto, .escalona";
+/** Arrancan con clip-path al 100 %: Chrome los da por "no visibles" para
+ *  siempre, así que se vigila su contenedor en lugar de ellos. */
+const RECORTADOS = ".aparece-titulo, .aparece-foto";
 
 /**
  * Activa la clase `.visible` en los elementos con animación de entrada
@@ -13,20 +16,30 @@ export function Aparecer() {
       document.documentElement.classList.add("sin-observer");
       return;
     }
+    // Lo que se vigila -> los elementos que se revelan cuando eso entra.
+    const destinos = new Map<Element, Set<Element>>();
     const observer = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            observer.unobserve(e.target);
-          }
+          if (!e.isIntersecting) continue;
+          destinos.get(e.target)?.forEach((el) => el.classList.add("visible"));
+          destinos.delete(e.target);
+          observer.unobserve(e.target);
         }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0 },
     );
     const observar = () =>
       document.querySelectorAll(SELECTOR).forEach((el) => {
-        if (!el.classList.contains("visible")) observer.observe(el);
+        if (el.classList.contains("visible")) return;
+        const vigilado = el.matches(RECORTADOS) && el.parentElement ? el.parentElement : el;
+        let set = destinos.get(vigilado);
+        if (!set) {
+          set = new Set();
+          destinos.set(vigilado, set);
+          observer.observe(vigilado);
+        }
+        set.add(el);
       });
     observar();
     // Al navegar entre rutas aparecen elementos nuevos.

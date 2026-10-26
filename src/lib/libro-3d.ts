@@ -32,12 +32,12 @@ export type ControlLibro = {
   destruir: () => void;
 };
 
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const easeInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2; // seno: arranca y frena sin tirones
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
-  const vueltas = o.vueltas ?? 1;
+  const vueltas = o.vueltas ?? 0.75;
   const velocidad = o.velocidad ?? 0.35;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -156,6 +156,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   function conectarHueco(el: HTMLElement) {
     const down = (e: PointerEvent) => {
       if (e.button !== 0 && e.pointerType === "mouse") return;
+      if (e.pointerType === "mouse") e.preventDefault(); // sin selección de texto ni arrastre nativo
       arrastrando = true;
       xPrev = e.clientX;
       el.setPointerCapture(e.pointerId);
@@ -176,11 +177,14 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
         /* noop */
       }
     };
+    const sinArrastreNativo = (e: Event) => e.preventDefault();
+    el.addEventListener("dragstart", sinArrastreNativo);
     el.addEventListener("pointerdown", down);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
     el.addEventListener("pointercancel", up);
     limpiezas.push(() => {
+      el.removeEventListener("dragstart", sinArrastreNativo);
       el.removeEventListener("pointerdown", down);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerup", up);
@@ -206,7 +210,16 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   let tPrev = performance.now();
   let visible = true;
 
+  // Progreso del viaje suavizado en el tiempo: el libro persigue al scroll con
+  // inercia en vez de pegarse a él, así una rueda rápida no lo hace saltar.
+  // En los extremos (0 y 1) coincide exactamente con el hueco.
+  let pSuave = 0;
+  let primerCuadro = true;
+  const SUAVIDAD = 4.5; // más alto = sigue al scroll más rápido
+
   function colocar(ahora: number) {
+    const dt = Math.min(0.1, (ahora - tPrev) / 1000);
+    tPrev = ahora;
     const [h1, h2] = asegurarHuecos();
     if (!h1) return false;
     const r1 = h1.getBoundingClientRect();
@@ -224,7 +237,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
       // Escritorio: el libro tiene su propia columna. Se queda flotando en
       // pantalla mientras el hero pasa por debajo y aterriza en el hueco 2.
       const recorrido = Math.max(1, ancla.top + y - (r1.top + y));
-      p = h2 ? easeInOut(clamp01(y / recorrido)) : 0;
+      p = suavizar(h2 ? clamp01(y / recorrido) : 0, dt);
       left = lerp(r1.left, r2.left, p);
       top = lerp(r1.top, r2.top, p);
       w = lerp(r1.width, r2.width, p);
@@ -232,7 +245,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     } else if (r1.bottom > -r1.height * 0.1) {
       // Móvil, primera parte: el libro se va con el hero (si se quedara fijo
       // taparía el título, que en móvil va debajo de él).
-      p = 0;
+      p = suavizar(0, dt);
       left = r1.left;
       top = r1.top;
       w = r1.width;
@@ -240,7 +253,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     } else {
       // Móvil, segunda parte: cuando se acerca el hueco 2, el libro baja desde
       // arriba de la pantalla dando la vuelta y se posa en él.
-      p = easeInOut(clamp01((vh * 0.95 - r2.top) / (vh * 0.65)));
+      p = suavizar(clamp01((vh * 0.95 - r2.top) / (vh * 0.7)), dt);
       left = r2.left;
       top = lerp(-r2.height * 1.1, r2.top, p);
       w = r2.width;
@@ -260,8 +273,6 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     grupo.scale.setScalar(s);
 
     // Giro: automático (se pausa 2 s después de arrastrar) + arrastre + viaje.
-    const dt = Math.min(0.1, (ahora - tPrev) / 1000);
-    tPrev = ahora;
     if (!reduceMotion && !arrastrando && ahora - ultimaInteraccion > 2000) giroAuto += velocidad * dt;
     const viaje = reduceMotion ? 0 : p * Math.PI * 2 * vueltas;
     grupo.rotation.y = -0.45 + giroAuto + giroArrastre + viaje;
@@ -271,6 +282,18 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
     halo.scale.set(hs, hs, 1);
     halo.material.opacity = reduceMotion ? 1 : 0.9 + 0.1 * Math.sin(ahora / 1800);
     return true;
+  }
+
+  /** Acerca pSuave al objetivo con decaimiento exponencial y devuelve la curva. */
+  function suavizar(objetivo: number, dt: number): number {
+    if (primerCuadro || reduceMotion) {
+      pSuave = objetivo;
+      primerCuadro = false;
+    } else {
+      pSuave += (objetivo - pSuave) * (1 - Math.exp(-SUAVIDAD * dt));
+      if (Math.abs(objetivo - pSuave) < 0.0005) pSuave = objetivo;
+    }
+    return easeInOut(pSuave);
   }
 
   // ---- Bucle --------------------------------------------------------------

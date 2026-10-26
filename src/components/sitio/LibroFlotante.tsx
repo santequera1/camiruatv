@@ -73,8 +73,9 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
           height={800}
           loading={id === "hero" ? "eager" : "lazy"}
           decoding="async"
+          draggable={false}
           className={cn(
-            "libro-respaldo absolute inset-0 h-full w-full object-contain",
+            "libro-respaldo pointer-events-none absolute inset-0 h-full w-full object-contain",
             id !== "hero" && "libro-respaldo-secundario",
           )}
         />
