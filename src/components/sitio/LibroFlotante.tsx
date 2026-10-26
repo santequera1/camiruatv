@@ -69,20 +69,31 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
       )}
     >
       {fallbackSrc && (
-        <img
-          src={fallbackSrc}
-          alt=""
-          width={800}
-          height={800}
-          loading={id === "hero" ? "eager" : "lazy"}
-          decoding="async"
-          draggable={false}
-          className={cn(
-            // Mismo alto que el libro 3D (72 % del hueco; 80 % en escritorio) para que el cambio no se note.
-            "libro-respaldo pointer-events-none absolute inset-0 m-auto h-[72%] w-auto lg:h-[80%] max-w-full object-contain drop-shadow-[0_24px_24px_rgb(31_58_68/0.18)]",
-            id !== "hero" && "libro-respaldo-secundario",
-          )}
-        />
+        // Imagen previa mientras carga el 3D. Ojo, dos trampas que en iPhone
+        // dibujaban un recuadro gris alrededor del libro:
+        //  - width/height deben tener la proporción REAL de la imagen
+        //    (500×820); con 800×800 la caja era cuadrada y el libro quedaba
+        //    centrado dentro de ella.
+        //  - nada de `filter: drop-shadow`: Safari lo pinta según la caja, no
+        //    según la silueta. La sombra es un óvalo aparte, sin filtros.
+        <span
+          aria-hidden="true"
+          className={cn("libro-respaldo pointer-events-none absolute inset-0", id !== "hero" && "libro-respaldo-secundario")}
+        >
+          <span className="absolute bottom-[10%] left-1/2 h-[6%] w-[46%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(31_58_68/0.2),rgb(31_58_68/0))] lg:bottom-[6%]" />
+          <img
+            src={fallbackSrc}
+            alt=""
+            width={500}
+            height={820}
+            loading={id === "hero" ? "eager" : "lazy"}
+            fetchPriority={id === "hero" ? "high" : "auto"}
+            decoding="async"
+            draggable={false}
+            // Mismo alto que el libro 3D (72 % del hueco; 84 % en escritorio) para que el cambio no se note.
+            className="absolute inset-0 m-auto h-[72%] w-auto max-w-full lg:h-[84%]"
+          />
+        </span>
       )}
     </div>
   );
