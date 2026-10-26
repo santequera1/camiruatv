@@ -55,7 +55,7 @@ function Hero() {
             id="hero"
             alt={ALT_LIBRO}
             fallbackSrc="/libro-portada.webp"
-            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(66vh,600px)]"
+            className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(74vh,680px)]"
           />
           <p className="mt-2 text-center font-sans text-xs text-muted-foreground lg:mt-0">
             Arrástralo para verlo por todos lados · baja para seguirlo
@@ -92,7 +92,7 @@ function Hero() {
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start" style={orden(4)}>
             <a
               href="#libro"
-              className="inline-flex h-12 items-center gap-2 rounded-md bg-primary px-6 font-sans text-sm font-medium text-primary-foreground transition-colors hover:bg-tinta-700"
+              className="inline-flex h-12 items-center gap-2 rounded-md bg-violeta px-6 font-sans text-sm font-medium text-hoja shadow-soft transition-colors hover:bg-violeta-700"
             >
               Leer la sinopsis
               <ArrowDown className="size-4" aria-hidden="true" />
@@ -101,7 +101,7 @@ function Hero() {
               href={CAMILA.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-12 items-center gap-2 rounded-md border border-tinta/30 bg-card/60 px-6 font-sans text-sm font-medium text-tinta transition-colors hover:border-violeta hover:bg-accent hover:text-violeta-700"
+              className="inline-flex h-12 items-center gap-2 rounded-md border border-violeta/20 bg-hoja px-6 font-sans text-sm font-medium text-violeta shadow-soft transition-colors hover:border-violeta hover:bg-violeta-50"
             >
               <Instagram className="size-4" aria-hidden="true" />
               Enterarme del lanzamiento
@@ -159,7 +159,7 @@ function SobreElLibro() {
               id="libro"
               alt={ALT_LIBRO}
               fallbackSrc="/libro-portada.webp"
-              className="mx-auto aspect-[4/5] w-full max-w-[280px] lg:sticky lg:top-24 lg:max-w-[420px]"
+              className="mx-auto aspect-[4/5] w-full max-w-[280px] lg:sticky lg:top-24 lg:max-w-[490px]"
             />
           </div>
 
@@ -393,7 +393,7 @@ function Cierre() {
             href={CAMILA.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-12 items-center gap-2 rounded-md bg-primary px-6 font-sans text-sm font-medium text-primary-foreground transition-colors hover:bg-tinta-700"
+            className="inline-flex h-12 items-center gap-2 rounded-md border border-violeta/20 bg-hoja px-6 font-sans text-sm font-medium text-violeta shadow-soft transition-colors hover:border-violeta hover:bg-violeta-50"
           >
             <Instagram className="size-4" aria-hidden="true" />
             @{CAMILA.usuario}

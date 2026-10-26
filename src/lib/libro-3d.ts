@@ -50,7 +50,7 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping; // respeta los colores de la portada
-  renderer.toneMappingExposure = 1.0;
+  renderer.toneMappingExposure = 0.95;
   renderer.setClearColor(0x000000, 0);
   Object.assign(renderer.domElement.style, { width: "100%", height: "100%", display: "block" });
   host.appendChild(renderer.domElement);
@@ -58,12 +58,15 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.8;
-  const key = new THREE.DirectionalLight(0xfff4e6, 1.4);
+  // Luz pareja y suave: con más ambiente y menos reflejo, las portadas se leen
+  // sin manchas de brillo (antes la contraportada casi no se entendía).
+  scene.environmentIntensity = 0.45;
+  scene.add(new THREE.HemisphereLight(0xfffaf0, 0xe8dcc4, 0.9));
+  const key = new THREE.DirectionalLight(0xfff4e6, 0.7);
   key.position.set(-1.5, 2, 2.5);
   scene.add(key);
   // Relleno violeta muy suave desde atrás: le da al lomo el color de Camila.
-  const relleno = new THREE.DirectionalLight(0xb79bd0, 0.35);
+  const relleno = new THREE.DirectionalLight(0xc79be3, 0.15);
   relleno.position.set(1.5, 0.5, -2);
   scene.add(relleno);
 
@@ -125,6 +128,25 @@ export function montarLibro(host: HTMLElement, o: OpcionesLibro): ControlLibro {
       const size = box.getSize(new THREE.Vector3());
       const ctr = box.getCenter(new THREE.Vector3());
       m.position.set(-ctr.x, -ctr.y, -ctr.z); // centrado en el origen del grupo
+      // Portada mate: sin barniz (clearcoat) y con más rugosidad, para que el
+      // reflejo no lave el texto de la portada ni de la contraportada.
+      m.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        for (const mat of mats) {
+          if (mat instanceof THREE.MeshPhysicalMaterial) {
+            mat.clearcoat = 0;
+            mat.clearcoatRoughness = 1;
+          }
+          if (mat instanceof THREE.MeshStandardMaterial) {
+            mat.roughness = Math.max(mat.roughness, 0.88);
+            mat.metalness = 0;
+            mat.envMapIntensity = 0.6;
+            mat.needsUpdate = true;
+          }
+        }
+      });
       grupo.add(m);
       modelo = m;
       H = size.y;
