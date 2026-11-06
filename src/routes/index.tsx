@@ -29,8 +29,8 @@ function Inicio() {
       <LibroFlotante src="/libro-desvistiendo.glb" />
       <Hero />
       <CintaLomo />
-      <SeccionLanzamiento />
       <SobreElLibro />
+      <SeccionLanzamiento />
       <SobreMi />
       <Escritura />
       <EnVideo />
@@ -146,14 +146,14 @@ function Hero() {
 /** Invitación al lanzamiento virtual (datos en LANZAMIENTO de contenido.ts). */
 function SeccionLanzamiento() {
   return (
-    <section id="lanzamiento" className="scroll-mt-20 bg-hoja py-20 lg:py-24" aria-label="Lanzamiento del libro">
+    <section id="lanzamiento" className="scroll-mt-20 border-t border-violeta/10 bg-hoja py-20 lg:py-24" aria-label="Lanzamiento del libro">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Lanzamiento />
         <p className="aparece mt-8 font-sans text-sm text-muted-foreground">
-          ¿Quieres compartir la invitación?{" "}
-          <Link to="/lanzamiento" className="font-medium text-violeta underline underline-offset-4">
+          ¿Quieres compartir la invitación? Pasa este enlace:{" "}
+          <a href="https://camiruatv.com/lanzamiento" className="font-medium text-violeta underline underline-offset-4">
             camiruatv.com/lanzamiento
-          </Link>
+          </a>
         </p>
       </div>
     </section>

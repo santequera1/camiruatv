@@ -73,7 +73,11 @@ export function Lanzamiento({ completa = false, className }: { completa?: boolea
 
   return (
     <div className={cn("grid items-center gap-10 lg:grid-cols-[1.25fr_minmax(0,420px)] lg:gap-16", className)}>
-      <div>
+      {/* En celular: título y datos → póster → texto y botones (el póster va
+          en el medio para que no haya tanto texto antes de la imagen). En
+          escritorio son dos columnas y el póster va a la derecha. */}
+      <div className="contents lg:block">
+      <div className="lg:contents">
         <p className="aparece etiqueta inline-flex items-center gap-2 rounded-sm bg-lima px-2 py-1 text-violeta-900">
           <Video className="size-3.5" aria-hidden="true" />
           {paso ? "Lanzamiento" : enVivo ? "En vivo ahora" : L.titulo}
@@ -98,8 +102,14 @@ export function Lanzamiento({ completa = false, className }: { completa?: boolea
             <dd className="text-xs text-muted-foreground">Google Meet</dd>
           </div>
         </dl>
+      </div>
 
-        <div className="aparece prosa mt-7 max-w-2xl">
+      <figure className="aparece relative mx-auto w-full max-w-[340px] lg:hidden">
+        <Poster eager={completa} />
+      </figure>
+
+      <div className="lg:contents">
+        <div className="aparece prosa mt-0 max-w-2xl lg:mt-7">
           {(completa ? L.invitacion : [L.invitacion[1]]).map((p, i) => (
             <p key={i} className="!text-[1.05rem] text-foreground/90">
               {p}
@@ -167,21 +177,30 @@ export function Lanzamiento({ completa = false, className }: { completa?: boolea
           </div>
         )}
       </div>
+      </div>
 
-      {/* La pieza promocional, como tarjeta ligeramente girada */}
-      <figure className="aparece relative mx-auto w-full max-w-[340px] lg:max-w-none">
-        <div className="absolute -inset-2 rotate-[2.5deg] rounded-sm bg-lima" aria-hidden="true" />
-        <div className="absolute -inset-2 -rotate-[1.5deg] rounded-sm border border-dashed border-violeta/40" aria-hidden="true" />
-        <img
-          src={L.poster}
-          alt={`Invitación al lanzamiento del libro: ${L.fechaTexto}, ${L.horaTexto}, modalidad virtual`}
-          width={900}
-          height={1125}
-          loading={completa ? "eager" : "lazy"}
-          decoding="async"
-          className="relative aspect-[4/5] w-full rounded-sm object-cover shadow-card"
-        />
+      <figure className="aparece relative hidden w-full lg:block">
+        <Poster eager={completa} />
       </figure>
     </div>
+  );
+}
+
+/** La pieza promocional, como tarjeta ligeramente girada sobre un fondo lima. */
+function Poster({ eager }: { eager: boolean }) {
+  return (
+    <>
+      <div className="absolute -inset-2 rotate-[2.5deg] rounded-sm bg-lima" aria-hidden="true" />
+      <div className="absolute -inset-2 -rotate-[1.5deg] rounded-sm border border-dashed border-violeta/40" aria-hidden="true" />
+      <img
+        src={L.poster}
+        alt={`Invitación al lanzamiento del libro: ${L.fechaTexto}, ${L.horaTexto}, modalidad virtual`}
+        width={900}
+        height={1125}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        className="relative aspect-[4/5] w-full rounded-sm object-cover shadow-card"
+      />
+    </>
   );
 }

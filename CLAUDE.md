@@ -42,8 +42,9 @@ tarjeta propia con enlace al reel.
 Invitación al lanzamiento virtual del libro (13 nov 2026, 10:30 a. m., Google Meet). Datos en `LANZAMIENTO`
 de `contenido.ts`; componente `Lanzamiento.tsx` (fecha, hora, modalidad, botones Meet / Google Calendar /
 `.ics`, copiar enlace, póster como tarjeta). Aparece en: la etiqueta y el botón secundario del hero, la pastilla
-lima del header (escritorio), el menú, la sección `#lanzamiento` (entre la cinta del lomo y «Sobre el libro»)
-y la página `/lanzamiento` (para compartir; OG = el póster; datos de evento schema.org). El estado se calcula
+lima del header (escritorio), el menú y la sección `#lanzamiento`, que va TERCERA (después de «Sobre el libro»):
+antes de eso el libro 3D que baja con el scroll la taparía. `/lanzamiento` solo redirige a esa sección (enlace
+corto para compartir). En celular el póster va entre los datos y el texto para que no haya tanto texto seguido. El estado se calcula
 en el navegador con `useEstadoEvento`: antes / en curso (desde 15 min antes, botón lima «Entrar») / después
 (todo pasa a pasado y el hero vuelve a «Libro · Próximamente»). Para el próximo evento, cambiar `LANZAMIENTO`,
 `public/lanzamiento.ics` y el póster (`contenido/invitacion-meet/` → `public/lanzamiento.webp`).
