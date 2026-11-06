@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//camiruatv.com//Lanzamiento//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:lanzamiento-desvistiendo-otros-estilos-2026@camiruatv.com
+DTSTAMP:20261106T230000Z
+DTSTART:20261113T153000Z
+DTEND:20261113T170000Z
+SUMMARY:Lanzamiento virtual de «Desvistiendo otros estilos» · Camila Rua Tovio
+DESCRIPTION:Presentación del libro «Desvistiendo otros estilos: performatividades de género\, hipismo\, moda y vestir en Medellín (1967-1975)». Conversación sobre el proceso y charla con Tania Moreno. Videollamada: https://meet.google.com/yfc-egut-ovz · Más en https://camiruatv.com/lanzamiento
+LOCATION:https://meet.google.com/yfc-egut-ovz
+URL:https://camiruatv.com/lanzamiento
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:El lanzamiento del libro empieza en 30 minutos
+END:VALARM
+END:VEVENT
+END:VCALENDAR

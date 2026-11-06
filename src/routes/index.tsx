@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, BookOpen, Instagram } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Instagram, Video } from "lucide-react";
+import { Lanzamiento, useEstadoEvento } from "@/components/sitio/Lanzamiento";
 import { BrujulaNombre } from "@/components/sitio/BrujulaNombre";
 import { EscrituraLista } from "@/components/sitio/EscrituraLista";
 import { LibroFlotante, LibroHueco } from "@/components/sitio/LibroFlotante";
 import { Maquina } from "@/components/sitio/Maquina";
 import { ReelInstagram } from "@/components/sitio/ReelInstagram";
-import { CAMILA, ESCRITOS, FAVORITOS, LIBRO, REELS } from "@/lib/contenido";
+import { CAMILA, ESCRITOS, FAVORITOS, LANZAMIENTO, LIBRO, REELS } from "@/lib/contenido";
 import { metaPagina, titulo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -28,6 +29,7 @@ function Inicio() {
       <LibroFlotante src="/libro-desvistiendo.glb" />
       <Hero />
       <CintaLomo />
+      <SeccionLanzamiento />
       <SobreElLibro />
       <SobreMi />
       <Escritura />
@@ -44,6 +46,8 @@ const orden = (i: number) => ({ "--i": i }) as React.CSSProperties;
 /* ------------------------------------------------------------------ */
 
 function Hero() {
+  const evento = useEstadoEvento();
+  const yaPaso = evento === "despues";
   return (
     <section className="relative overflow-hidden bg-hoja" aria-labelledby="titulo-libro">
       {/* Marco punteado de la cubierta, como fondo discreto del hero */}
@@ -69,13 +73,23 @@ function Hero() {
         </div>
 
         <div className="escalona visible order-2 text-center lg:order-1 lg:text-left">
-          <p
-            className="inline-flex items-center gap-2 rounded-sm bg-lima px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-violeta-900"
+          <a
+            href="#lanzamiento"
+            className="inline-flex items-center gap-2 rounded-sm bg-lima px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-violeta-900 transition-colors hover:bg-[#b8f55a]"
             style={orden(0)}
           >
-            <BookOpen className="size-3.5" aria-hidden="true" />
-            Libro · {LIBRO.estado}
-          </p>
+            <Video className="size-3.5" aria-hidden="true" />
+            {yaPaso ? (
+              `Libro · ${LIBRO.estado}`
+            ) : evento === "en-curso" ? (
+              "Lanzamiento · en vivo ahora"
+            ) : (
+              <>
+                <span className="sm:hidden">Lanzamiento · 13 nov</span>
+                <span className="hidden sm:inline">Lanzamiento virtual · 13 de noviembre</span>
+              </>
+            )}
+          </a>
           <h1
             id="titulo-libro"
             className="mt-5 font-serif text-[clamp(2.9rem,7vw,5.6rem)] font-bold leading-[0.98] text-tinta"
@@ -103,17 +117,44 @@ function Hero() {
               Leer la sinopsis
               <ArrowDown className="size-4" aria-hidden="true" />
             </a>
-            <a
-              href={CAMILA.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center gap-2 rounded-md border border-violeta/20 bg-hoja px-6 font-sans text-sm font-medium text-violeta shadow-soft transition-colors hover:border-violeta hover:bg-violeta-50"
-            >
-              <Instagram className="size-4" aria-hidden="true" />
-              Enterarme del lanzamiento
-            </a>
+            {yaPaso ? (
+              <a
+                href={CAMILA.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center gap-2 rounded-md border border-violeta/20 bg-hoja px-6 font-sans text-sm font-medium text-violeta shadow-soft transition-colors hover:border-violeta hover:bg-violeta-50"
+              >
+                <Instagram className="size-4" aria-hidden="true" />
+                Novedades del libro
+              </a>
+            ) : (
+              <a
+                href="#lanzamiento"
+                className="inline-flex h-12 items-center gap-2 rounded-md border border-violeta/20 bg-hoja px-6 font-sans text-sm font-medium text-violeta shadow-soft transition-colors hover:border-violeta hover:bg-violeta-50"
+              >
+                <Video className="size-4" aria-hidden="true" />
+                {evento === "en-curso" ? "Entrar al lanzamiento" : "Unirme al lanzamiento"}
+              </a>
+            )}
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/** Invitación al lanzamiento virtual (datos en LANZAMIENTO de contenido.ts). */
+function SeccionLanzamiento() {
+  return (
+    <section id="lanzamiento" className="scroll-mt-20 bg-hoja py-20 lg:py-24" aria-label="Lanzamiento del libro">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Lanzamiento />
+        <p className="aparece mt-8 font-sans text-sm text-muted-foreground">
+          ¿Quieres compartir la invitación?{" "}
+          <Link to="/lanzamiento" className="font-medium text-violeta underline underline-offset-4">
+            camiruatv.com/lanzamiento
+          </Link>
+        </p>
       </div>
     </section>
   );

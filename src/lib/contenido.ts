@@ -59,6 +59,33 @@ export const LIBRO = {
  */
 export type NombreBrujula = { nombre: string; imagen?: string };
 
+/**
+ * Lanzamiento virtual del libro. Las fechas van en hora de Colombia (UTC−5).
+ * Cuando pase el evento, la sección y el aviso del hero cambian solos
+ * (ver Lanzamiento.tsx); para el próximo evento basta con actualizar esto.
+ */
+export const LANZAMIENTO = {
+  titulo: "Lanzamiento del libro",
+  /** Para el calendario y el SEO. */
+  nombreEvento: "Lanzamiento virtual de «Desvistiendo otros estilos», de Camila Rua Tovio",
+  fechaTexto: "13 de noviembre de 2026",
+  horaTexto: "10:30 a. m.",
+  zona: "Hora de Colombia (UTC−5)",
+  inicio: "2026-11-13T10:30:00-05:00",
+  fin: "2026-11-13T12:00:00-05:00",
+  modalidad: "Virtual, por Google Meet",
+  enlace: "https://meet.google.com/yfc-egut-ovz",
+  codigoMeet: "yfc-egut-ovz",
+  invitacion: [
+    "¡Hola! Quería contarte algo muy especial: voy a presentar mi libro «Desvistiendo otros estilos: performatividades de género, hipismo, moda y vestir en Medellín» y me encantaría que me acompañaras ese día.",
+    "Habrá una breve conversación sobre el proceso, y luego estaré acompañada por una de las personas que me compartieron su experiencia, Tania Moreno. Será un espacio para compartir sobre subculturas, estilo, género e historia.",
+  ],
+  invitada: "Tania Moreno",
+  /** Pieza promocional (contenido/invitacion-meet/invitacion-poster.jpg → public/). */
+  poster: "/lanzamiento.webp",
+  calendario: "/lanzamiento.ics",
+};
+
 export const FAVORITOS: { etiqueta: string; valor: NombreBrujula[] }[] = [
   { etiqueta: "Primera diseñadora de la que me enamoré", valor: [{ nombre: "Elsa Schiaparelli", imagen: "/brujula/schiaparelli.webp" }] },
   {

@@ -37,6 +37,17 @@ cuando el reel está cerca de la pantalla, y **sin** `data-instgrm-captioned` (c
 porque mete el texto completo en varios idiomas). Mientras carga, o si Instagram está bloqueado, se ve una
 tarjeta propia con enlace al reel.
 
+## Lanzamiento (evento)
+
+Invitación al lanzamiento virtual del libro (13 nov 2026, 10:30 a. m., Google Meet). Datos en `LANZAMIENTO`
+de `contenido.ts`; componente `Lanzamiento.tsx` (fecha, hora, modalidad, botones Meet / Google Calendar /
+`.ics`, copiar enlace, póster como tarjeta). Aparece en: la etiqueta y el botón secundario del hero, la pastilla
+lima del header (escritorio), el menú, la sección `#lanzamiento` (entre la cinta del lomo y «Sobre el libro»)
+y la página `/lanzamiento` (para compartir; OG = el póster; datos de evento schema.org). El estado se calcula
+en el navegador con `useEstadoEvento`: antes / en curso (desde 15 min antes, botón lima «Entrar») / después
+(todo pasa a pasado y el hero vuelve a «Libro · Próximamente»). Para el próximo evento, cambiar `LANZAMIENTO`,
+`public/lanzamiento.ics` y el póster (`contenido/invitacion-meet/` → `public/lanzamiento.webp`).
+
 ## Brújula (sección 04)
 
 Cada nombre puede llevar imagen (`FAVORITOS` en `contenido.ts`): en escritorio aparece flotando al pasar

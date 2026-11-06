@@ -5,6 +5,7 @@ import { CAMILA, LIBRO } from "@/lib/contenido";
 import { cn } from "@/lib/utils";
 
 const SECCIONES = [
+  { href: "#lanzamiento", label: "Lanzamiento", num: "13 nov" },
   { href: "#libro", label: "El libro", num: "01" },
   { href: "#sobre-mi", label: "Sobre mí", num: "02" },
   { href: "#escritura", label: "Escritura", num: "03" },
@@ -67,6 +68,13 @@ export function SiteHeader() {
             </span>
           </Link>
 
+          <a
+            href={enlace("#lanzamiento")}
+            className="mr-auto ml-6 hidden items-center gap-2 rounded-full bg-lima px-3 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-violeta-900 transition-colors hover:bg-[#b8f55a] md:inline-flex"
+          >
+            <span className="size-1.5 animate-pulse rounded-full bg-violeta" aria-hidden="true" />
+            Lanzamiento virtual · 13 nov · 10:30 a. m.
+          </a>
           <button
             type="button"
             onClick={abierto ? cerrar : abrir}
