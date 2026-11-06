@@ -1,6 +1,7 @@
 export const SITE_NAME = "Camila Rua Tovio";
 export const SITE_URL = "https://camiruatv.com";
-export const OG_IMAGE = `${SITE_URL}/og-libro.jpg`;
+// `?v=`: WhatsApp y Facebook guardan la imagen por URL; súbelo cuando cambie og-libro.jpg.
+export const OG_IMAGE = `${SITE_URL}/og-libro.jpg?v=2`;
 
 export function titulo(pagina?: string): string {
   return pagina
