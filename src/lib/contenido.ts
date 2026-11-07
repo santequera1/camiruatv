@@ -39,6 +39,13 @@ export const CAMILA = {
 };
 
 export const LIBRO = {
+  /**
+   * Modelo 3D e imagen previa. `?v=`: nginx deja estos archivos 7 días en la
+   * caché del navegador y conservan el nombre, así que quien ya entró seguiría
+   * viendo el libro viejo. SUBE el número cada vez que los cambies.
+   */
+  modelo: "/libro-desvistiendo.glb?v=2",
+  previa: "/libro-portada.webp?v=2",
   titulo: "Desvistiendo otros estilos",
   subtitulo: "Performatividades de género, hipismo, moda y vestir en Medellín (1967⁠–⁠1975)",
   estado: "Próximamente",

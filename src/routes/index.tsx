@@ -26,7 +26,7 @@ function Inicio() {
   return (
     <>
       {/* El libro 3D vive en un canvas fijo y viaja del hero a «Sobre el libro». */}
-      <LibroFlotante src="/libro-desvistiendo.glb" />
+      <LibroFlotante src={LIBRO.modelo} />
       <Hero />
       <CintaLomo />
       <SobreElLibro />
@@ -61,7 +61,7 @@ function Hero() {
           <LibroHueco
             id="hero"
             alt={ALT_LIBRO}
-            fallbackSrc="/libro-portada.webp"
+            fallbackSrc={LIBRO.previa}
             className="mx-auto aspect-square w-full max-w-[min(76vw,400px)] lg:max-w-none lg:aspect-[4/5] lg:h-[min(82vh,760px)]"
           />
           <p className="mt-2 text-center font-sans text-xs text-muted-foreground lg:mt-0">
@@ -206,7 +206,7 @@ function SobreElLibro() {
             <LibroHueco
               id="libro"
               alt={ALT_LIBRO}
-              fallbackSrc="/libro-portada.webp"
+              fallbackSrc={LIBRO.previa}
               className="mx-auto aspect-[4/5] w-full max-w-[330px] lg:sticky lg:top-24 lg:max-w-[560px]"
             />
           </div>

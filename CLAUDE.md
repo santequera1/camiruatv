@@ -66,6 +66,10 @@ el mouse (`BrujulaNombre.tsx`) y en celular va como miniatura. Las originales va
 | Revista Sofoco ed. 02 (artículo de Camila en pp. 243–257) | `contenido/[Español] Sofoco Revista Edición 02.pdf` |
 | Datos sueltos (bio, redes, favoritos) | `info.md` |
 
+**Al cambiar el libro 3D:** sube el `?v=` de `LIBRO.modelo` y `LIBRO.previa` en `contenido.ts` (y el de
+`OG_IMAGE` en `seo.ts`). Conservan el nombre y nginx los deja 7 días en caché: sin esto, quien ya entró sigue
+viendo el libro viejo aunque el servidor tenga el nuevo.
+
 Los derivados para la web están en `public/` (`libro-portada.webp`, `camila.webp`, `og-libro.jpg`, íconos);
 se generaron con `sharp` (ver README). Si cambia una fuente, se regeneran.
 
