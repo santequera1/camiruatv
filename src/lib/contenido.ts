@@ -44,8 +44,8 @@ export const LIBRO = {
    * caché del navegador y conservan el nombre, así que quien ya entró seguiría
    * viendo el libro viejo. SUBE el número cada vez que los cambies.
    */
-  modelo: "/libro-desvistiendo.glb?v=2",
-  previa: "/libro-portada.webp?v=2",
+  modelo: "/libro-desvistiendo.glb?v=3",
+  previa: "/libro-portada.webp?v=3",
   titulo: "Desvistiendo otros estilos",
   subtitulo: "Performatividades de género, hipismo, moda y vestir en Medellín (1967⁠–⁠1975)",
   estado: "Próximamente",

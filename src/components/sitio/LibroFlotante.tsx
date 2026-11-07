@@ -72,7 +72,7 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
         // Imagen previa mientras carga el 3D. Ojo, dos trampas que en iPhone
         // dibujaban un recuadro gris alrededor del libro:
         //  - width/height deben tener la proporción REAL de la imagen
-        //    (500×820); con 800×800 la caja era cuadrada y el libro quedaba
+        //    (517×820); con 800×800 la caja era cuadrada y el libro quedaba
         //    centrado dentro de ella.
         //  - nada de `filter: drop-shadow`: Safari lo pinta según la caja, no
         //    según la silueta. La sombra es un óvalo aparte, sin filtros.
@@ -84,7 +84,7 @@ export function LibroHueco({ id, alt, fallbackSrc, className }: HuecoProps) {
           <img
             src={fallbackSrc}
             alt=""
-            width={500}
+            width={517}
             height={820}
             loading={id === "hero" ? "eager" : "lazy"}
             fetchPriority={id === "hero" ? "high" : "auto"}
